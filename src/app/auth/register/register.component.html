@@ -1,0 +1,75 @@
+<div class="register-box">
+    <h2>
+        Registrar
+        <img src="/icon-register.png" alt="">
+    </h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="register-box__inputs">
+            <div>
+                <label for="name">
+                    Nome Completo:
+                </label>
+                <input type="text" id="name" formControlName="name">
+                <span class="errors" *ngIf="form.get('name')?.errors?.['required'] && form.touched">
+                    Nome é obrigatório
+                </span>
+            </div>
+            <div>
+                <label for="username">
+                    Usuário:
+                </label>
+                <input type="text" id="username" formControlName="username">
+                <span class="errors" *ngIf="form.get('username')?.errors?.['required'] && form.touched">
+                    O usuário é obrigatório
+                </span>
+            </div>
+        </div>
+
+        <label for="email">
+            E-mail:
+        </label>
+        <input type="email" id="email" formControlName="email" placeholder="email@gmail.com">
+        <span class="errors" *ngIf="form.get('email')?.errors?.['required'] && form.touched">
+            O e-mail é obrigatório.
+        </span>
+        <span class="errors" *ngIf="form.get('email')?.errors?.['email'] && form.touched">
+            O e-mail precisa ser válido.
+        </span>
+
+        <div class="register-box__inputs">
+            <div>
+                <label for="password1">
+                    Senha:
+                </label>
+                <input type="password" id="password1" formControlName="password1">
+                <span class="errors" *ngIf="form.get('password1')?.errors?.['required'] && form.touched">
+                    A senha é obrigatória.
+                </span>
+                <span class="errors" *ngIf="form.get('password1')?.errors?.['minlength'] && form.touched">
+                    A senha deve ter no mínimo 8 caracteres.
+                </span>
+                <span class="errors" *ngIf="form.errors?.['passwordsDontMatch'] && form.touched">
+                    As senhas não coincidem.
+                </span>
+            </div>
+            <div>
+                <label for="password2">
+                    Repetir senha:
+                </label>
+                <input type="password" id="password2" formControlName="password2">
+                <span class="errors" *ngIf="form.get('password2')?.errors?.['required'] && form.touched">
+                    A senha é obrigatória.
+                </span>
+            </div>
+        </div>
+        <div class="register-box__buttons">
+            <button *ngIf="!formLoader" [disabled]="form.invalid" class="register-box__button-create">Criar</button>
+            <span class="loader" *ngIf="formLoader"></span>
+        </div>
+        <span class="errors" *ngIf="form.invalid && form.touched">
+            Por favor, corrija os erros acima.
+        </span>
+        <span class="row"></span>
+        <a routerLink="/auth/login">Tem uma conta? Faça login</a>
+    </form>
+</div>

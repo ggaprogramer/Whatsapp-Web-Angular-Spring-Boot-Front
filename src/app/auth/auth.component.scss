@@ -1,0 +1,38 @@
+@import 'utils', 'variables';
+
+.auth-box{
+    width: 100%;
+    min-height: 100vh;
+    background: $secoundary-color;
+    @include display-flex(row, nowrap, center, center, 2rem);
+    @include padding(2rem, 2rem, 2rem, 2rem);
+
+    .auth-box-intern{
+        @include display-flex(row, nowrap, flex-start, center, 2rem);
+        @include border($black-color-one, 0.2rem, solid, 1rem);
+        background: $white-color-one;
+        width: 80%;
+        @include padding(2rem, 2rem, 2rem, 2rem);
+
+        img{
+            width: 40rem;
+
+            @media (max-width: 1000px){
+                width: 25rem;
+            }
+        }
+
+        .auth-box-router-outlet{
+            @include display-flex(column, nowrap, center, center, 2rem);
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            width: 100%;
+        }
+
+        @media (max-width: 1000px){
+            flex-flow: column nowrap;
+            height: auto;
+            min-height: 60rem;
+        }
+    }
+
+}

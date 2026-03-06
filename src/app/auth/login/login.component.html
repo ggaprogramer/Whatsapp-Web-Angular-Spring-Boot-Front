@@ -1,0 +1,40 @@
+<div class="login-box">
+    <h2>
+        Login
+        <img src="/icon-login.png" alt="">
+    </h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <label for="email">
+            E-mail:
+        </label>
+        <input type="text" id="email" formControlName="email" placeholder="email@gmail.com">
+        <span class="errors" *ngIf="form.get('email')?.errors?.['required'] && form.touched">
+            O e-mail é obrigatório.
+        </span>
+        <span class="errors" *ngIf="form.get('email')?.errors?.['email'] && form.touched">
+            O e-mail precisa ser válido.
+        </span>
+
+        <label for="password">
+            Senha:
+        </label>
+        <input type="password" id="password" formControlName="password">
+        <span class="errors" *ngIf="form.get('password')?.errors?.['required'] && form.touched">
+            A senha é obrigatória.
+        </span>
+        <span class="errors" *ngIf="form.get('password')?.errors?.['minlength'] && form.touched">
+            A senha deve ter pelo menos 8 caracteres.
+        </span>
+
+        <button *ngIf="!formLoader" [disabled]="form.invalid" type="submit">Entrar</button>
+        <span class="loader" *ngIf="formLoader"></span>
+
+        <span class="errors" *ngIf="form.invalid && form.touched">
+            Por favor, corrija os erros acima.
+        </span>
+
+        <a routerLink="/auth/forgot-password">Esqueceu a senha?</a>
+        <span class="row"></span>
+        <a routerLink="/auth/register">Não tem uma conta? Registre-se</a>
+    </form>
+</div>
