@@ -17,16 +17,31 @@ export class DashboardComponent {
   @ViewChild('variableContainerConversationMessagesActionsAdd') variableContainerConversationMessagesActionsAdd!: ElementRef<HTMLButtonElement>;
 
   toggleContainerConversationsHeaderOptions() {
+    this.variableContainerConversationHeaderActionsOptions
+    .nativeElement.children[1]!.classList.remove('container-conversation_header_actions_options--view');
+    this.variableContainerConversationMessagesActionsAdd
+    .nativeElement.children[1]!.classList.remove('container-conversation_messages_actions_add--view');
+
     this.variableContainerConversationsHeaderOptions
     .nativeElement.children[1]!.classList.toggle('container-conversations_header_buttons_options--view');
   }
 
   toggleContainerConversationHeaderActionsOptions() {
+    this.variableContainerConversationsHeaderOptions
+    .nativeElement.children[1]!.classList.remove('container-conversations_header_buttons_options--view');
+    this.variableContainerConversationMessagesActionsAdd
+    .nativeElement.children[1]!.classList.remove('container-conversation_messages_actions_add--view');
+
     this.variableContainerConversationHeaderActionsOptions
     .nativeElement.children[1]!.classList.toggle('container-conversation_header_actions_options--view');
   }
 
   toggleContainerConversationMessagesActionsAdd() {
+    this.variableContainerConversationsHeaderOptions
+    .nativeElement.children[1]!.classList.remove('container-conversations_header_buttons_options--view');
+    this.variableContainerConversationHeaderActionsOptions
+    .nativeElement.children[1]!.classList.remove('container-conversation_header_actions_options--view');
+
     this.variableContainerConversationMessagesActionsAdd
     .nativeElement.children[1]!.classList.toggle('container-conversation_messages_actions_add--view');
   }
