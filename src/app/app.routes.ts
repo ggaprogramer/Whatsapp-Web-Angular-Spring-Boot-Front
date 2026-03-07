@@ -5,6 +5,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { routesProtected, routesFree } from './auth/guards';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -36,5 +37,11 @@ export const routes: Routes = [
                 canActivate: [routesFree],
             }
         ],
+    },
+    {
+        path: 'dashboard',
+        component: DashboardComponent, 
+        canActivate: [routesProtected],
+        title: 'Dashboard',
     },
 ];
