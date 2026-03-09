@@ -79,6 +79,8 @@ $divider-color: #e5e7eb;
 // =======================
 
 $dark-mode-color-bg: #030712;
+$dark-mode-color-bg-opacity-5: rgba(17, 24, 39, 0.5);
+
 $dark-mode-color-surface: #111827;
 
 $dark-mode-color-text: #f9fafb;
@@ -113,6 +115,7 @@ $dark-mode-input-placeholder-color: #6b7280;
 // =======================
 
 $light-mode-color-bg: #ffffff;
+$light-mode-color-bg-opacity-5: rgba(255, 255, 255, 0.5);
 $light-mode-color-surface: #f9fafb;
 
 $light-mode-color-text: #111827;

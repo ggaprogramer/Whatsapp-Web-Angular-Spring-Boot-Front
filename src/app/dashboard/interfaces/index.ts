@@ -1,0 +1,1 @@
+export type buttonsActionsAlterComponents = 'CONVERSATIONS' | 'ALTER_PROFILE' | 'CONFIGURATION';

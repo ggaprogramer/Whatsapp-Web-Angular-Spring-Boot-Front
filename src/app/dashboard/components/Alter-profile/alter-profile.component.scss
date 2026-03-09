@@ -1,0 +1,162 @@
+@import 'utils', 'variables';
+
+:host{
+    width: 100%;
+}
+
+.loader {
+    @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
+}
+
+.container-alter-profile-info {
+    border: 1px solid red;
+    border-right: $dark-mode-input-border 0.15rem solid;
+    min-height: 100vh;
+    width: 65rem;
+    @include display-flex(column, nowrap, start, center, 2rem);
+    @include padding(1rem, 1rem, 1rem, 1rem);
+    background: $dark-mode-color-bg;
+
+    .container-alter-profile-info_header{
+        border: 1px solid red;
+        width: 100%;
+        @include display-flex(row, nowrap, start, center, 0rem);
+
+        h1{
+            color: $dark-mode-color-text;
+        } 
+    }
+
+    .container-alter-profile-info_photo{
+        border: 1px solid red;
+        width: 100%;
+        @include display-flex(row, nowrap, center, center, 0rem);
+
+        .container-alter-profile-info_photo_box{
+            border: 1px solid red;
+            @include border-radius(50%);
+            position: relative;
+            transition: .3s;
+
+            img{
+                width: 15rem;
+                height: 15rem;
+            }
+
+            &>button{
+                @include border-radius(50%);
+                width: 15rem;
+                height: 15rem;
+                transition: .3s;
+                cursor: pointer;
+                font-family: $font-primary;
+                position: absolute;
+                top: 0rem;
+                background: transparent;
+                border: none;
+                background: $dark-mode-color-bg-opacity-5;
+                color: $dark-mode-button-default-text;
+                @include display-flex(column, nowrap, center, center, 1rem);
+                display: none;
+            }
+
+            &:hover>button {
+                display: flex;
+            }
+
+            div{
+                position: absolute;
+                top: 70%;
+                right: 0;
+                width: 25rem;
+                font-size: 1.5rem;
+                background: $dark-mode-color-surface;
+                border: $dark-mode-input-border 0.15rem solid;
+                @include display-flex(column, nowrap, center, start, 0rem);
+                @include border-radius(2rem);
+                @include padding(1rem, 1rem, 1rem, 1rem);
+                display: none;
+
+                &.container-alter-profile-info-photo--view{
+                    display: flex;
+                }
+
+                &>span{
+                    @include margin(1rem, 0rem, 1rem, 0rem);
+                    width: 100%;
+                    height: 0.2rem;
+                    background: $dark-mode-color-divider;
+                }
+
+                button{
+                    @include border-radius(0rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    @include display-flex(row, nowrap, start, center, 2rem);
+                    z-index: 1000;
+                    background: transparent;
+                    color: $dark-mode-button-default-text;
+                    border: none;
+                    transition: .3s;
+                    cursor: pointer;
+                    font-family: $font-primary;
+
+                    &:hover{
+                        color: $dark-mode-button-selected-text;
+                        @include transform-scale(1.05);
+                    }
+
+                    &:first-child{
+                        border-top-left-radius: 2rem;
+                    }
+
+                    &:last-child{
+                        border-bottom-left-radius: 2rem;
+                    }
+                }
+            }
+        }
+        
+    }
+
+    .container-alter-profile-info_name{
+        width: 100%;
+        @include display-flex(column, nowrap, center, flex-start, 1rem);
+
+        p{
+            color: $dark-mode-color-text;
+            font-size: 1.5rem;
+        }
+
+        .container-alter-name_box{
+            width: 100%;
+            @include display-flex(row, nowrap, center, center, 2rem);
+
+            &.container-alter-name_box--edit{
+                border-bottom: 0.2rem solid $primary-color;
+            }
+
+            .container-alter-profile-info_name_buttons{
+                @include display-flex(row, nowrap, center, center, 1rem);
+            }
+
+            .container-alter-profile-info_name_input{
+                width: 100%;
+                background: transparent;
+                border: none;
+                @include padding(1rem, 1rem, 1rem, 1rem);
+                color: $dark-mode-color-text;
+                font-family: $font-primary;
+            }
+
+            button{
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                span{
+                    color: $dark-mode-color-text;
+                    font-size: 2rem;
+                }
+            }
+        }
+    }
+}

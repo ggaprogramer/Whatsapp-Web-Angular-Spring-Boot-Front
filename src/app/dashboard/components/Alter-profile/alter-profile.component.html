@@ -1,0 +1,85 @@
+<form class="container-alter-profile-info">
+    <div class="container-alter-profile-info_header">
+        <h1>Perfil</h1>
+    </div>
+    <div class="container-alter-profile-info_photo">
+        <div class="container-alter-profile-info_photo_box">
+            <img src="/user.png">
+            <button type="button" #variableContainerAlterProfileInfoPhoto 
+            (click)="toggleContainerAlterProfileInfoPhoto()">
+                <span class="material-symbols-outlined">
+                    photo_library
+                </span>
+                <p>
+                    Mudar foto <br> do perfil
+                </p>
+            </button>
+            <div>
+                <button>
+                    <span class="material-symbols-outlined">
+                        visibility
+                    </span>
+                    <p>
+                        Mostrar foto
+                    </p>
+                </button>
+                <button>
+                    <span class="material-symbols-outlined">
+                        photo_camera
+                    </span>
+                    <p>
+                        Tirar foto
+                    </p>
+                </button>
+                <button>
+                    <span class="material-symbols-outlined">
+                        upload_file
+                    </span>
+                    <p>
+                        Carregar foto
+                    </p>
+                </button>
+                <span></span>
+                <button>
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                    <p>
+                        Remover foto
+                    </p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-alter-profile-info_name">
+        <p>
+            Nome
+        </p>
+        <div #variableAlterNameBox class="container-alter-name_box">
+            <input (input)="alterNameLength()" class="container-alter-profile-info_name_input" 
+            #variableInputName type="text" placeholder="Digite seu nome">
+            <div class="container-alter-profile-info_name_buttons">
+                <p>{{ variableInputNameLength }}</p>
+                <button type="button">
+                    <span class="material-symbols-outlined">
+                        add_reaction
+                    </span>
+                </button>
+                <button type="button" (click)="openEditName()">
+                    <span class="material-symbols-outlined">
+                        edit
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-alter-profile-info_description">
+
+    </div>
+
+    <div class="container-alter-profile-info_phone">
+
+    </div>
+</form>
