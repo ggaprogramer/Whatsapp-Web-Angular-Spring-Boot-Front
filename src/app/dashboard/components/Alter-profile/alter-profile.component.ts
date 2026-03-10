@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EmojiService } from '../../../config/emoji-service.service';
+import { Emoji } from '../../../config/interfaces';
 
 @Component({
   selector: 'app-alter-profile',
@@ -11,6 +13,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './alter-profile.component.scss'
 })
 export class AlterProfileComponent {
+    constructor(
+      private readonly emojiService: EmojiService,
+    ) {}
+
+    emoji!: Emoji[];
+
+    ngOnInit(): void {
+      this.emojiService.emojiFilter('ANIMALS_AND_NATURE').subscribe({
+        next: (response) => {
+          this.emoji = response;
+        }
+      });
+    }
+
     @ViewChild('variableContainerAlterProfileInfoPhoto') variableContainerAlterProfileInfoPhoto!: ElementRef<HTMLButtonElement>;
   
     toggleContainerAlterProfileInfoPhoto() {
