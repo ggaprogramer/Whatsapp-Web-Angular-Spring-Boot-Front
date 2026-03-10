@@ -20,8 +20,13 @@ export class AlterProfileComponent {
 
     @ViewChild('variableInputName') variableInputName!: ElementRef<HTMLInputElement>;
     variableInputNameLength!: number;
+    variableOpenEditName: boolean = false;
 
     @ViewChild('variableAlterNameBox') variableAlterNameBox!: ElementRef<HTMLDivElement>;
+
+    inputNameFocus(){
+      this.openEditName();
+    }
 
     alterNameLength(){
       this.variableInputNameLength = 
@@ -30,9 +35,19 @@ export class AlterProfileComponent {
     }
 
     openEditName(){
+      this.variableOpenEditName = true;
       this.variableAlterNameBox.nativeElement.classList.add('container-alter-name_box--edit');
       this.variableInputName.nativeElement.focus();
       this.alterNameLength();
+    }
+
+    closeEditName(){
+      this.variableOpenEditName = false;
+      this.variableAlterNameBox.nativeElement.classList.remove('container-alter-name_box--edit');
+    }
+
+    insertEmojiName(emoji: string){
+      this.variableInputName.nativeElement.value += emoji;
     }
 
 }

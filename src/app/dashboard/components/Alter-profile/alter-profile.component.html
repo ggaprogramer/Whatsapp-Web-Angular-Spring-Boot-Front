@@ -58,19 +58,273 @@
         </p>
         <div #variableAlterNameBox class="container-alter-name_box">
             <input (input)="alterNameLength()" class="container-alter-profile-info_name_input" 
-            #variableInputName type="text" placeholder="Digite seu nome">
+            #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
             <div class="container-alter-profile-info_name_buttons">
-                <p>{{ variableInputNameLength }}</p>
-                <button type="button">
+                <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>
+                <button *ngIf="variableOpenEditName" type="button">
                     <span class="material-symbols-outlined">
                         add_reaction
                     </span>
                 </button>
-                <button type="button" (click)="openEditName()">
+                <button *ngIf="variableOpenEditName" type="button" (click)="closeEditName()">
+                    <span class="material-symbols-outlined">
+                        check
+                    </span>
+                </button>
+                <button *ngIf="!variableOpenEditName" type="button" (click)="openEditName()">
                     <span class="material-symbols-outlined">
                         edit
                     </span>
                 </button>
+            </div>
+            <div class="container-alter-name_box_emoji">
+                <div class="container-alter-name_box_emoji_header">
+                    <button class="container-alter-name_box_emoji_header_button
+                    container-alter-name_box_emoji_header_button--selected" type="button">
+                        <span class="material-symbols-outlined">
+                            schedule
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            mood
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            pets
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            emoji_food_beverage
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            sports_basketball
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            directions_car
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            emoji_objects
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            emoji_symbols
+                        </span>
+                    </button>
+                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                        <span class="material-symbols-outlined">
+                            flag
+                        </span>
+                    </button>
+                </div>
+                <div class="container-alter-name_box_emoji_search">
+                    <div>
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+                        <input type="text" placeholder="Pesquisar emojis">
+                    </div>
+                </div>
+                <div class="container-alter-name_box_emoji_box">
+                    <div class="container-alter-name_box_emoji_box_recent">
+                        <p>Recentes</p>
+                        <div class="container-alter-name_box_emoji_box_emojis">
+                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                        </div>
+                    </div>
+                    <div class="container-alter-name_box_emoji_box_all">
+                        <div class="container-alter-name_box_emoji_box_child">
+                            <p>Sorrisos e pessoas</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                            </div>
+                        </div>
+                        <div class="container-alter-name_box_emoji_box_child">
+                            <p>Sorrisos e pessoas</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                            </div>
+                        </div>
+                        <div class="container-alter-name_box_emoji_box_child">
+                            <p>Sorrisos e pessoas</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                            </div>
+                        </div>
+                        <div class="container-alter-name_box_emoji_box_child">
+                            <p>Sorrisos e pessoas</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                                <button (click)="insertEmojiName('😊')">😊</button>
+                                <button (click)="insertEmojiName('😂')">😂</button>
+                                <button (click)="insertEmojiName('😍')">😍</button>
+                                <button (click)="insertEmojiName('😘')">😘</button>
+                                <button (click)="insertEmojiName('😎')">😎</button>
+                                <button (click)="insertEmojiName('😢')">😢</button>
+                                <button (click)="insertEmojiName('😡')">😡</button>
+                                <button (click)="insertEmojiName('🤔')">🤔</button>
+                                <button (click)="insertEmojiName('🙄')">🙄</button>
+                                <button (click)="insertEmojiName('😴')">😴</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

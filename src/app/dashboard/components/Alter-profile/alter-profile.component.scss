@@ -130,6 +130,7 @@
         .container-alter-name_box{
             width: 100%;
             @include display-flex(row, nowrap, center, center, 2rem);
+            position: relative;
 
             &.container-alter-name_box--edit{
                 border-bottom: 0.2rem solid $primary-color;
@@ -148,13 +149,153 @@
                 font-family: $font-primary;
             }
 
-            button{
-                border: none;
-                background: transparent;
-                cursor: pointer;
-                span{
-                    color: $dark-mode-color-text;
-                    font-size: 2rem;
+            .container-alter-profile-info_name_buttons{
+                button{
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    span{
+                        color: $dark-mode-color-text;
+                        font-size: 2rem;
+                    }
+                }
+            }
+
+            .container-alter-name_box_emoji{
+                position: absolute;
+                @include display-flex(column, nowrap, center, center, 1rem);
+                @include padding(1rem, 1.5rem, 1rem, 1.5rem);
+                @include border-radius(2rem);
+                background: $dark-mode-color-bg;
+                width: 55rem;
+                border: 1px solid red;
+
+                .container-alter-name_box_emoji_header{
+                    width: 100%;
+                    @include display-flex(row, nowrap, space-between, center, 1rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+
+                    .container-alter-name_box_emoji_header_button{
+                        border: none;
+                        background: transparent;
+                        cursor: pointer;
+                        transition: .3s;
+                        @include padding(0rem, 0rem, 0.5rem, 0rem);
+
+                        span{
+                            color: $dark-mode-button-default-text;
+                            transition: .3s;
+
+                            &:hover{
+                                color: $dark-mode-color-text;
+                            }
+
+                            font-size: 2.5rem;
+                        }
+                    }
+
+                    .container-alter-name_box_emoji_header_button--selected{
+                        border-bottom: 0.25rem solid $primary-color;
+                        span{
+                            color: $dark-mode-color-text;
+                        }
+                    }
+                }
+
+                .container-alter-name_box_emoji_search{
+                    width: 100%;
+                    @include border-radius(4rem);
+                    @include display-flex(row, nowrap, center, center, 0.5rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    background: $dark-mode-color-surface;
+
+                    &>div{
+                        width: 100%;
+                        @include display-flex(row, nowrap, center, center, 1rem);
+
+                        span{
+                            color: $dark-mode-color-text;
+                            font-size: 1.8rem;
+                        }
+
+                        input{
+                            width: 100%;
+                            background: transparent;
+                            border: none;
+                            @include padding(0.5rem, 1rem, 0.5rem, 1rem);
+                            color: $dark-mode-color-text;
+                            font-family: $font-primary;
+
+                            &:focus{
+                                border-bottom-color: $primary-color;
+                            }
+                        }
+                    }
+                }
+
+                .container-alter-name_box_emoji_box{
+                    width: 100%;
+                    height: 20rem;
+                    overflow: auto;
+                    @include display-flex(column, nowrap, flex-start, center, 1.5rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    border: 1px solid red;
+
+                    // Scroll Bar
+                    scrollbar-width: thin;
+                    scrollbar-color: $dark-mode-color-divider $dark-mode-color-surface;
+
+                    /* Chrome / Edge / Safari */
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background: $dark-mode-color-surface;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background: $dark-mode-color-divider;
+                        @include border-radius(0.8rem);
+                    }
+
+                    &::-webkit-scrollbar-thumb:hover {
+                        background: lighten($dark-mode-color-divider, 10%);
+                    }
+
+                    .container-alter-name_box_emoji_box_emojis{
+                        @include display-flex(row, wrap, flex-start, center, 0.5rem);
+
+                        button{
+                            border: none;
+                            background: transparent;
+                            font-size: 2rem;
+                            cursor: pointer;
+                            transition: .3s;
+
+                            &:hover{
+                                @include transform-scale(1.2);
+                            }
+                        }
+                    }
+
+                    .container-alter-name_box_emoji_box_recent{
+                        @include display-flex(column, nowrap, center, flex-start, 1rem);
+                        width: 100%;
+                        border: 1px solid red;
+                    }
+
+                    .container-alter-name_box_emoji_box_all{
+                        @include display-flex(column, nowrap, center, flex-start, 1rem);
+                        width: 100%;
+                        border: 1px solid red;
+
+                        .container-alter-name_box_emoji_box_child{
+                            @include display-flex(column, nowrap, center, flex-start, 1rem);
+                            width: 100%;
+                            border: 1px solid red;
+                        }
+                    }
                 }
             }
         }
