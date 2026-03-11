@@ -131,7 +131,7 @@
                         <span class="material-symbols-outlined">
                             search
                         </span>
-                        <input type="text" placeholder="Pesquisar emojis">
+                        <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
                     </div>
                 </div>
                 <div class="container-alter-name_box_emoji_box">
@@ -143,8 +143,8 @@
                         </div>
                     </div>
                     <div class="container-alter-name_box_emoji_box_all">
-                        <div class="container-alter-name_box_emoji_box_child">
-                            <ng-container *ngFor="let emojiDTO of emojiAll$ | async">
+                        <ng-container *ngFor="let emojiDTO of emojiAllFilter">
+                            <div class="container-alter-name_box_emoji_box_child">
                                 <ng-container *ngIf="emojiDTO.emojis.length > 0">
                                     <p>{{emojiDTO.nameType}}</p>    
                                     <div class="container-alter-name_box_emoji_box_emojis">          
@@ -153,8 +153,8 @@
                                         </ng-container>
                                     </div>
                                 </ng-container>
-                            </ng-container>
-                        </div>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>
