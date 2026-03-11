@@ -14,10 +14,10 @@ export class EmojiService {
       private readonly http: HttpClient,
       private readonly configService: ConfigService,
     ) {}
-  
-    emojiFilter(type: string): Observable<Emoji[]> {
+
+    emojiAll(): Observable<Emoji[]> {
         return this.http
-        .get<Emoji[]>(this.configService.getApiUrl(`/emoji/filter/${type}`), { withCredentials: true })
+        .get<Emoji[]>(this.configService.getApiUrl(`/emoji/all`), { withCredentials: true })
         .pipe(
             catchError(this.configService.handleErrorHttp)
         );

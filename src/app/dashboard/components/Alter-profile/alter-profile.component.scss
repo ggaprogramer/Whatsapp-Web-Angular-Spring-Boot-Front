@@ -163,12 +163,13 @@
 
             .container-alter-name_box_emoji{
                 position: absolute;
+                top: 150%;
                 @include display-flex(column, nowrap, center, center, 1rem);
                 @include padding(1rem, 1.5rem, 1rem, 1.5rem);
                 @include border-radius(2rem);
-                background: $dark-mode-color-bg;
+                background: $dark-mode-color-surface;
                 width: 55rem;
-                border: 1px solid red;
+                display: none;
 
                 .container-alter-name_box_emoji_header{
                     width: 100%;
@@ -207,7 +208,7 @@
                     @include border-radius(4rem);
                     @include display-flex(row, nowrap, center, center, 0.5rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
-                    background: $dark-mode-color-surface;
+                    background: $dark-mode-color-bg;
 
                     &>div{
                         width: 100%;
@@ -297,6 +298,10 @@
                         }
                     }
                 }
+            }
+
+            .container-alter-name_box_emoji--view{
+                display: flex;
             }
         }
     }

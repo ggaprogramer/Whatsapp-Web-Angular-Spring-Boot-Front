@@ -1,5 +1,8 @@
-export interface Emoji{
-    id: number;
-    name: string;
-    type: string;
+export interface Emoji {
+    nameType: string;
+    valueType: string;
+    emojis: [{
+        name: string;
+        value: string;
+    }]
 }

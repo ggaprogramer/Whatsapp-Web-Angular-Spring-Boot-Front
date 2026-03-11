@@ -61,7 +61,7 @@
             #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
             <div class="container-alter-profile-info_name_buttons">
                 <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>
-                <button *ngIf="variableOpenEditName" type="button">
+                <button (click)="toggleBoxEmojis()" *ngIf="variableOpenEditName" type="button">
                     <span class="material-symbols-outlined">
                         add_reaction
                     </span>
@@ -77,7 +77,7 @@
                     </span>
                 </button>
             </div>
-            <div class="container-alter-name_box_emoji">
+            <div #variableContainerEmoji class="container-alter-name_box_emoji">
                 <div class="container-alter-name_box_emoji_header">
                     <button class="container-alter-name_box_emoji_header_button
                     container-alter-name_box_emoji_header_button--selected" type="button">
@@ -144,10 +144,16 @@
                     </div>
                     <div class="container-alter-name_box_emoji_box_all">
                         <div class="container-alter-name_box_emoji_box_child">
-                            <p>Sorrisos e pessoas</p>
-                            <div class="container-alter-name_box_emoji_box_emojis">
-                                <button *ngFor="let e of emoji" (click)="insertEmojiName(e.name)">{{ e.name }}</button>
-                            </div>
+                            <ng-container *ngFor="let emojiDTO of emojiAll$ | async">
+                                <ng-container *ngIf="emojiDTO.emojis.length > 0">
+                                    <p>{{emojiDTO.nameType}}</p>    
+                                    <div class="container-alter-name_box_emoji_box_emojis">          
+                                        <ng-container *ngFor="let emoji of emojiDTO.emojis">
+                                            <button (click)="insertEmojiName(emoji.value)">{{ emoji.value }}</button>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

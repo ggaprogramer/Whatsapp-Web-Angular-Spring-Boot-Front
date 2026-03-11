@@ -1,9 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
 import { Emoji } from '../../../config/interfaces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-alter-profile',
@@ -12,19 +13,15 @@ import { Emoji } from '../../../config/interfaces';
   templateUrl: './alter-profile.component.html',
   styleUrl: './alter-profile.component.scss'
 })
-export class AlterProfileComponent {
+export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
     ) {}
 
-    emoji!: Emoji[];
+    emojiAll$!: Observable<Emoji[]>;
 
     ngOnInit(): void {
-      this.emojiService.emojiFilter('ANIMALS_AND_NATURE').subscribe({
-        next: (response) => {
-          this.emoji = response;
-        }
-      });
+      this.emojiAll$ = this.emojiService.emojiAll();
     }
 
     @ViewChild('variableContainerAlterProfileInfoPhoto') variableContainerAlterProfileInfoPhoto!: ElementRef<HTMLButtonElement>;
@@ -64,6 +61,11 @@ export class AlterProfileComponent {
 
     insertEmojiName(emoji: string){
       this.variableInputName.nativeElement.value += emoji;
+    }
+
+    @ViewChild('variableContainerEmoji') variableContainerEmoji!: ElementRef<HTMLDivElement>;
+    toggleBoxEmojis(){
+      this.variableContainerEmoji.nativeElement.classList.toggle('container-alter-name_box_emoji--view');
     }
 
 }
