@@ -11,7 +11,7 @@ button{
 
     border: none;
     cursor: pointer;
-    transition: .3s;
+    @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
     img{
         width: 3rem;
@@ -65,10 +65,11 @@ button{
                     @include display-flex(column, nowrap, center, start, 0rem);
                     @include border-radius(2rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
-                    display: none;
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
 
                     &.container-conversations_header_buttons_options--view{
-                        display: flex;
+                        transform: scale(1);
                     }
 
                     &>span{
@@ -118,7 +119,7 @@ button{
                 color: $dark-mode-input-text;
                 @include border($dark-mode-input-border, 0.2rem, solid, 2rem);
                 @include padding(1rem, 2rem, 1rem, 4rem);
-                transition: .3s;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
                 font-family: $font-primary;
                 caret-color: $primary-color;
 
@@ -162,7 +163,7 @@ button{
             }
             @include border-radius(2rem);
             @include padding(1rem, 1rem, 1rem, 1rem);
-            transition: .3s;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
             h5{
                 font-size: 1.5rem;
@@ -285,10 +286,11 @@ button{
                     @include display-flex(column, nowrap, center, start, 0rem);
                     @include border-radius(2rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
-                    display: none;
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
 
                     &.container-conversation_header_actions_options--view{
-                        display: flex;
+                        transform: scale(1);
                     }
 
                     &>span{
@@ -426,10 +428,11 @@ button{
                     @include display-flex(column, nowrap, center, start, 0rem);
                     @include border-radius(2rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
-                    display: none;
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
 
                     &.container-conversation_messages_actions_add--view{
-                        display: flex;
+                        transform: scale(1);
                     }
 
                     &>span{
@@ -468,7 +471,7 @@ button{
                 background: transparent;
                 color: $dark-mode-input-text;
                 @include padding(1rem, 1rem, 1rem, 1rem);
-                transition: .3s;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
                 font-family: $font-primary;
                 caret-color: $primary-color;
                 border: none;

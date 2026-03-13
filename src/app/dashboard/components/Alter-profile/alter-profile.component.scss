@@ -34,7 +34,7 @@
         .container-alter-profile-info_photo_box{
             @include border-radius(50%);
             position: relative;
-            transition: .3s;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
             cursor: pointer;
 
             img{
@@ -47,7 +47,7 @@
                 @include border-radius(50%);
                 width: 15rem;
                 height: 15rem;
-                transition: .3s;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
                 cursor: pointer;
                 font-family: $font-primary;
                 position: absolute;
@@ -75,10 +75,11 @@
                 @include display-flex(column, nowrap, center, start, 0rem);
                 @include border-radius(2rem);
                 @include padding(1rem, 1rem, 1rem, 1rem);
-                display: none;
+                transform: scale(0);
+                @include transition(transform, 0.5s, ease-in-out, 0s, normal);
 
                 &.container-alter-profile-info-photo--view{
-                    display: flex;
+                    transform: scale(1);
                 }
 
                 &>span{
@@ -96,7 +97,7 @@
                     background: transparent;
                     color: $dark-mode-button-default-text;
                     border: none;
-                    transition: .3s;
+                    @include transition(all, 0.3s, ease-in-out, 0s, normal);
                     cursor: pointer;
                     font-family: $font-primary;
 
@@ -169,7 +170,8 @@
                 @include border-radius(2rem);
                 background: $dark-mode-color-surface;
                 width: 55rem;
-                display: none;
+                transform: scale(0);
+                @include transition(transform, 0.5s, ease-in-out, 0s, normal);
 
                 .container-alter-name_box_emoji_header{
                     width: 100%;
@@ -180,12 +182,12 @@
                         border: none;
                         background: transparent;
                         cursor: pointer;
-                        transition: .3s;
+                        @include transition(all, 0.3s, ease-in-out, 0s, normal);
                         @include padding(0rem, 0rem, 0.5rem, 0rem);
 
                         span{
                             color: $dark-mode-button-default-text;
-                            transition: .3s;
+                            @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
                             &:hover{
                                 color: $dark-mode-color-text;
@@ -236,7 +238,7 @@
 
                 .container-alter-name_box_emoji_box{
                     width: 100%;
-                    height: 20rem;
+                    height: 15rem;
                     overflow: auto;
                     @include display-flex(column, nowrap, flex-start, center, 1.5rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
@@ -272,7 +274,7 @@
                             background: transparent;
                             font-size: 2rem;
                             cursor: pointer;
-                            transition: .3s;
+                            @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
                             &:hover{
                                 @include transform-scale(1.2);
@@ -280,16 +282,13 @@
                         }
                     }
 
-                    .container-alter-name_box_emoji_box_recent{
-                        @include display-flex(column, nowrap, center, flex-start, 1rem);
-                        width: 100%;
-                    }
-
                     .container-alter-name_box_emoji_box_all{
+                        border: 1px solid yellow;
                         @include display-flex(column, nowrap, center, flex-start, 1rem);
                         width: 100%;
 
                         .container-alter-name_box_emoji_box_child{
+                            border: 1px solid green;
                             &:not(:first-child){
                                 @include padding(1rem, 0rem, 0rem, 0rem);
                             }
@@ -301,7 +300,7 @@
             }
 
             .container-alter-name_box_emoji--view{
-                display: flex;
+                transform: scale(1);
             }
         }
     }

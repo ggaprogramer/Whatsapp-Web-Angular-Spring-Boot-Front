@@ -78,49 +78,58 @@
                 </button>
             </div>
             <div #variableContainerEmoji class="container-alter-name_box_emoji">
-                <div class="container-alter-name_box_emoji_header">
-                    <button class="container-alter-name_box_emoji_header_button
-                    container-alter-name_box_emoji_header_button--selected" type="button">
+                <div #containerAlterNameBoxEmojiHeader 
+                class="container-alter-name_box_emoji_header">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="SCHEDULE" type="button">
                         <span class="material-symbols-outlined">
                             schedule
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="SMILEYS_AND_PEOPLE" type="button">
                         <span class="material-symbols-outlined">
                             mood
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="ANIMALS_AND_NATURE" type="button">
                         <span class="material-symbols-outlined">
                             pets
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="FOOD_AND_DRINK" type="button">
                         <span class="material-symbols-outlined">
                             emoji_food_beverage
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="ACTIVITIES" type="button">
                         <span class="material-symbols-outlined">
                             sports_basketball
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="TRAVEL_AND_PLACES" type="button">
                         <span class="material-symbols-outlined">
                             directions_car
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="OBJECTS" type="button">
                         <span class="material-symbols-outlined">
                             emoji_objects
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="SYMBOLS" type="button">
                         <span class="material-symbols-outlined">
                             emoji_symbols
                         </span>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" type="button">
+                    <button class="container-alter-name_box_emoji_header_button" 
+                    varscroll="FLAGS" type="button">
                         <span class="material-symbols-outlined">
                             flag
                         </span>
@@ -134,17 +143,17 @@
                         <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
                     </div>
                 </div>
-                <div class="container-alter-name_box_emoji_box">
-                    <div class="container-alter-name_box_emoji_box_recent">
-                        <p>Recentes</p>
-                        <div class="container-alter-name_box_emoji_box_emojis">
-                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                        </div>
-                    </div>
+                <div #containerAlterNameBoxEmojiBox class="container-alter-name_box_emoji_box">
                     <div class="container-alter-name_box_emoji_box_all">
-                        <ng-container *ngFor="let emojiDTO of emojiAllFilter">
-                            <div class="container-alter-name_box_emoji_box_child">
+                        <div class="container-alter-name_box_emoji_box_child var-scroll-SCHEDULE">
+                            <p>Recentes</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                                <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let emojiDTO of emojiAllFilter; index as i">
+                            <div [class]="'container-alter-name_box_emoji_box_child var-scroll-' + emojiDTO.valueType">
                                 <ng-container *ngIf="emojiDTO.emojis.length > 0">
                                     <p>{{emojiDTO.nameType}}</p>    
                                     <div class="container-alter-name_box_emoji_box_emojis">          

@@ -97,8 +97,38 @@ export class AlterProfileComponent implements OnInit {
     }
 
     @ViewChild('variableContainerEmoji') variableContainerEmoji!: ElementRef<HTMLDivElement>;
+    @ViewChild('containerAlterNameBoxEmojiBox') containerAlterNameBoxEmojiBox!: ElementRef<HTMLDivElement>;
+    @ViewChild('containerAlterNameBoxEmojiHeader') containerAlterNameBoxEmojiHeader!: ElementRef<HTMLDivElement>;
     toggleBoxEmojis(){
       this.variableContainerEmoji.nativeElement.classList.toggle('container-alter-name_box_emoji--view');
+
+      if(this.variableContainerEmoji.nativeElement.classList.contains('container-alter-name_box_emoji--view')){
+        const itemsBoxEmojis = Array.from(this.containerAlterNameBoxEmojiBox.nativeElement.children[0].children);
+        const itemsIcons = Array.from(this.containerAlterNameBoxEmojiHeader.nativeElement.children);
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.forEach(_class => {
+                if(_class.indexOf('var-scroll') !== -1){
+                  let valueType = _class.substring(11);
+                  itemsIcons.forEach(icon => {
+                    if(icon.getAttribute('varscroll') === valueType){
+                      icon.classList.add('container-alter-name_box_emoji_header_button--selected');
+                    } else {
+                      icon.classList.remove('container-alter-name_box_emoji_header_button--selected');
+                    }
+                  });
+                }
+              })
+            }
+          });
+        }, {
+          root: this.containerAlterNameBoxEmojiBox.nativeElement, // importante: container com scroll
+          threshold: 0.2 // 10% visível
+        });
+
+        itemsBoxEmojis.forEach(item => observer.observe(item));
+      }
     }
 
 }
