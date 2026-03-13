@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   templateUrl: './alter-profile.component.html',
   styleUrl: './alter-profile.component.scss'
 })
-export class AlterProfileComponent implements OnInit {
+export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
       private readonly emojiService: EmojiService,
     ) {}
@@ -28,6 +28,10 @@ export class AlterProfileComponent implements OnInit {
           this.emojiAllFilter = this.emojiAll;
         }
       });
+    }
+
+    ngAfterViewInit(): void {
+      this.containerAlterNameBoxEmojiBox.nativeElement.addEventListener('scroll', this.boxEmojiEventListener);
     }
 
     filterEmojis(e: Event){
@@ -98,37 +102,42 @@ export class AlterProfileComponent implements OnInit {
 
     @ViewChild('variableContainerEmoji') variableContainerEmoji!: ElementRef<HTMLDivElement>;
     @ViewChild('containerAlterNameBoxEmojiBox') containerAlterNameBoxEmojiBox!: ElementRef<HTMLDivElement>;
-    @ViewChild('containerAlterNameBoxEmojiHeader') containerAlterNameBoxEmojiHeader!: ElementRef<HTMLDivElement>;
+
+    boxEmojiEventListener(e: Event){
+        const el = e.target as HTMLDivElement;
+        const childrens = Array.from(el.children[0].children) as HTMLDivElement[];
+        const itemsIcons = document.querySelectorAll('.container-alter-name_box_emoji_header_button') as NodeListOf<HTMLButtonElement>;
+
+        childrens.forEach(item => {
+
+          const top = item.offsetTop;
+          const bottom = top + item.offsetHeight;
+
+          if (
+            top < el.scrollTop + el.clientHeight &&
+            bottom > el.scrollTop && itemsIcons &&
+            item.classList[1].indexOf('var-scroll') !== -1
+          ) {
+            let valueType = item.classList[1].substring(11);
+            itemsIcons.forEach(icon => {
+              if(icon.getAttribute('varscroll') === valueType){
+                icon.classList.add('container-alter-name_box_emoji_header_button--selected');
+              } else {
+                icon.classList.remove('container-alter-name_box_emoji_header_button--selected');
+              }
+            });
+          };
+
+      });
+    }
+
     toggleBoxEmojis(){
       this.variableContainerEmoji.nativeElement.classList.toggle('container-alter-name_box_emoji--view');
+    }
 
-      if(this.variableContainerEmoji.nativeElement.classList.contains('container-alter-name_box_emoji--view')){
-        const itemsBoxEmojis = Array.from(this.containerAlterNameBoxEmojiBox.nativeElement.children[0].children);
-        const itemsIcons = Array.from(this.containerAlterNameBoxEmojiHeader.nativeElement.children);
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.forEach(_class => {
-                if(_class.indexOf('var-scroll') !== -1){
-                  let valueType = _class.substring(11);
-                  itemsIcons.forEach(icon => {
-                    if(icon.getAttribute('varscroll') === valueType){
-                      icon.classList.add('container-alter-name_box_emoji_header_button--selected');
-                    } else {
-                      icon.classList.remove('container-alter-name_box_emoji_header_button--selected');
-                    }
-                  });
-                }
-              })
-            }
-          });
-        }, {
-          root: this.containerAlterNameBoxEmojiBox.nativeElement, // importante: container com scroll
-          threshold: 0.2 // 10% visível
-        });
 
-        itemsBoxEmojis.forEach(item => observer.observe(item));
-      }
+    ngOnDestroy(): void {
+      this.containerAlterNameBoxEmojiBox.nativeElement.removeEventListener('scroll', this.boxEmojiEventListener);
     }
 
 }
