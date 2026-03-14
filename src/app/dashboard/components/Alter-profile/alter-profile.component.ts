@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } 
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
 import { Emoji } from '../../../config/interfaces';
-import { Observable } from 'rxjs';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-alter-profile',
@@ -13,9 +13,10 @@ import { Observable } from 'rxjs';
   templateUrl: './alter-profile.component.html',
   styleUrl: './alter-profile.component.scss'
 })
-export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
+      private sanitizer: DomSanitizer,
     ) {}
 
     emojiAll!: Emoji[];
@@ -28,10 +29,6 @@ export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.emojiAllFilter = this.emojiAll;
         }
       });
-    }
-
-    ngAfterViewInit(): void {
-      this.containerAlterNameBoxEmojiBox.nativeElement.addEventListener('scroll', this.boxEmojiEventListener);
     }
 
     filterEmojis(e: Event){
@@ -62,6 +59,30 @@ export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     @ViewChild('variableContainerAlterProfileInfoPhoto') variableContainerAlterProfileInfoPhoto!: ElementRef<HTMLButtonElement>;
+    @ViewChild('inputFilePhotoProfile') inputFilePhotoProfile!: ElementRef<HTMLInputElement>;
+    @ViewChild('tagImgFileProfile') tagImgFileProfile!: ElementRef<HTMLElement>;
+
+    filePhoto: string = '/user.png';
+
+    alterFilePhoto(e: Event){
+      const el = e.target as HTMLButtonElement;
+      const inputFile = this.inputFilePhotoProfile.nativeElement as HTMLInputElement;
+      inputFile.click();
+    }
+
+    handleFilePhoto(e: Event){
+      const el = e.target as HTMLInputElement;
+      const files = el.files;
+      if(files && files.length > 0){
+        // Essa URL:
+        // existe apenas na memória do navegador
+        // não existe no servidor
+        // não pode ser acessada externamente
+        // só funciona dentro da mesma página
+        const url = URL.createObjectURL(files[0]);
+        this.filePhoto = url;
+      }
+    }
   
     toggleContainerAlterProfileInfoPhoto() {
       this.variableContainerAlterProfileInfoPhoto
@@ -155,11 +176,6 @@ export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     toggleBoxEmojis(){
       this.variableContainerEmoji.nativeElement.classList.toggle('container-alter-name_box_emoji--view');
-    }
-
-
-    ngOnDestroy(): void {
-      this.containerAlterNameBoxEmojiBox.nativeElement.removeEventListener('scroll', this.boxEmojiEventListener);
     }
 
 }

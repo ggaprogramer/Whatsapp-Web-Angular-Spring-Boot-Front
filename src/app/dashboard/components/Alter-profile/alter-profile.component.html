@@ -4,7 +4,8 @@
     </div>
     <div class="container-alter-profile-info_photo">
         <div class="container-alter-profile-info_photo_box">
-            <img src="/user.png">
+            <img #tagImgFileProfile
+            [src]="filePhoto" accept="image/*">
             <button type="button" #variableContainerAlterProfileInfoPhoto 
             (click)="toggleContainerAlterProfileInfoPhoto()">
                 <span class="material-symbols-outlined">
@@ -31,13 +32,15 @@
                         Tirar foto
                     </p>
                 </button>
-                <button>
+                <button (click)="alterFilePhoto($event)">
                     <span class="material-symbols-outlined">
                         upload_file
                     </span>
                     <p>
                         Carregar foto
                     </p>
+                    <input (input)="handleFilePhoto($event)" 
+                    #inputFilePhotoProfile type="file">
                 </button>
                 <span></span>
                 <button>
@@ -143,7 +146,9 @@
                         <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
                     </div>
                 </div>
-                <div #containerAlterNameBoxEmojiBox class="container-alter-name_box_emoji_box">
+                <div #containerAlterNameBoxEmojiBox 
+                (scroll)="boxEmojiEventListener($event)"
+                class="container-alter-name_box_emoji_box">
                     <div class="container-alter-name_box_emoji_box_child var-scroll-SCHEDULE">
                         <p>Recentes</p>
                         <div class="container-alter-name_box_emoji_box_emojis">

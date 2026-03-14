@@ -102,6 +102,10 @@
                     cursor: pointer;
                     font-family: $font-primary;
 
+                    input{
+                        display: none;
+                    }
+
                     &:hover{
                         color: $dark-mode-button-selected-text;
                         @include transform-scale(1.05);
