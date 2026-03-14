@@ -105,7 +105,7 @@ export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     boxEmojiEventListener(e: Event){
         const el = e.target as HTMLDivElement;
-        const childrens = Array.from(el.children[0].children) as HTMLDivElement[];
+        const childrens = Array.from(el.children) as HTMLDivElement[];
         const itemsIcons = document.querySelectorAll('.container-alter-name_box_emoji_header_button') as NodeListOf<HTMLButtonElement>;
 
         childrens.forEach(item => {
@@ -128,6 +128,28 @@ export class AlterProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           };
 
+      });
+    }
+
+    buttonIconEmojiScroll(e: Event){
+      const spanOnButton = e.target as HTMLButtonElement;
+
+      const box = Array.from(this.containerAlterNameBoxEmojiBox.nativeElement.children) as HTMLDivElement[];
+      box.forEach(element => {
+        let valueType = element.classList[1].substring(11);
+        if(spanOnButton.parentElement
+          && spanOnButton.parentElement.getAttribute('varscroll') === 'SCHEDULE'){
+          this.containerAlterNameBoxEmojiBox.nativeElement.scroll({
+            top: 0,
+            behavior: "smooth"
+          });
+        } else if(spanOnButton.parentElement
+          && spanOnButton.parentElement.getAttribute('varscroll') === valueType){
+          this.containerAlterNameBoxEmojiBox.nativeElement.scroll({
+            top: element.offsetTop - 130,
+            behavior: "smooth"
+          });
+        }
       });
     }
 

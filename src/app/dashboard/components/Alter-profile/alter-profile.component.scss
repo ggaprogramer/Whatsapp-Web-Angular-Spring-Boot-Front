@@ -36,6 +36,7 @@
             position: relative;
             @include transition(all, 0.3s, ease-in-out, 0s, normal);
             cursor: pointer;
+            z-index: 100;
 
             img{
                 width: 15rem;
@@ -242,7 +243,6 @@
                     overflow: auto;
                     @include display-flex(column, nowrap, flex-start, center, 1.5rem);
                     @include padding(1rem, 1rem, 1rem, 1rem);
-                    border: 1px solid red;
 
                     // Scroll Bar
                     scrollbar-width: thin;
@@ -282,19 +282,12 @@
                         }
                     }
 
-                    .container-alter-name_box_emoji_box_all{
-                        border: 1px solid yellow;
+                    .container-alter-name_box_emoji_box_child{
+                        &:not(:first-child){
+                            @include padding(1rem, 0rem, 0rem, 0rem);
+                        }
                         @include display-flex(column, nowrap, center, flex-start, 1rem);
                         width: 100%;
-
-                        .container-alter-name_box_emoji_box_child{
-                            border: 1px solid green;
-                            &:not(:first-child){
-                                @include padding(1rem, 0rem, 0rem, 0rem);
-                            }
-                            @include display-flex(column, nowrap, center, flex-start, 1rem);
-                            width: 100%;
-                        }
                     }
                 }
             }
