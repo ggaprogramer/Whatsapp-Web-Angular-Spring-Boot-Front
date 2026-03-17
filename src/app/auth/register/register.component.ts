@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service.service';
@@ -15,7 +15,10 @@ import { tap } from 'rxjs/operators';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+      private readonly authService: AuthService,
+      private readonly router: Router,
+    ) {}
 
   form = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -45,10 +48,9 @@ export class RegisterComponent {
       )
       .subscribe({
         next: (response: RegisterResponse) => {
-          console.log('Register response:', response);
+          this.router.navigate(['/auth/login']);
         },
         error: (error) => {
-          console.error('Register error:', error);
           this.formLoader = false;
         },
         complete: () => { 

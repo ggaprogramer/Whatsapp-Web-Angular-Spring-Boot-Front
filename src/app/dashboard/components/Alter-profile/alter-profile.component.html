@@ -1,4 +1,4 @@
-<form class="container-alter-profile-info">
+<form [formGroup]="form" (ngSubmit)="(alterProfile())" class="container-alter-profile-info">
     <div class="container-alter-profile-info_header">
         <h1>Perfil</h1>
     </div>
@@ -39,7 +39,7 @@
                     <p>
                         Carregar foto
                     </p>
-                    <input (input)="handleFilePhoto($event)" 
+                    <input formControlName="file" (input)="handleFilePhoto($event)" 
                     #inputFilePhotoProfile type="file">
                 </button>
                 <span></span>
@@ -60,7 +60,8 @@
             Nome
         </p>
         <div #variableAlterNameBox class="container-alter-name_box">
-            <input (input)="alterNameLength()" class="container-alter-profile-info_name_input" 
+            <input (input)="alterNameLength()" formControlName="name"
+            class="container-alter-profile-info_name_input"
             #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
             <div class="container-alter-profile-info_name_buttons">
                 <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>

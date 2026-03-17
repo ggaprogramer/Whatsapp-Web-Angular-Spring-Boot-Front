@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } 
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
 import { Emoji } from '../../../config/interfaces';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-alter-profile',
@@ -16,11 +15,15 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
-      private sanitizer: DomSanitizer,
     ) {}
 
     emojiAll!: Emoji[];
     emojiAllFilter!: Emoji[];
+
+    form = new FormGroup({
+      file: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+    });
 
     ngOnInit(): void {
       this.emojiService.emojiAll().subscribe({
@@ -29,6 +32,14 @@ export class AlterProfileComponent implements OnInit {
           this.emojiAllFilter = this.emojiAll;
         }
       });
+
+      this.form.valueChanges.subscribe(values => {
+        console.log(values);
+      });
+    };
+
+    alterProfile(){
+
     }
 
     filterEmojis(e: Event){
