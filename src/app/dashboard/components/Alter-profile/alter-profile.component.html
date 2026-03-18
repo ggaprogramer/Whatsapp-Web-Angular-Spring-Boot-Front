@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="(alterProfile())" class="container-alter-profile-info">
+<form [formGroup]="form" class="container-alter-profile-info">
     <div class="container-alter-profile-info_header">
         <h1>Perfil</h1>
     </div>
@@ -39,7 +39,7 @@
                     <p>
                         Carregar foto
                     </p>
-                    <input formControlName="file" (input)="handleFilePhoto($event)" 
+                    <input (change)="handleFilePhoto($event)" 
                     #inputFilePhotoProfile type="file">
                 </button>
                 <span></span>

@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
+import { ProfileService } from '../../../profile/service/profile-service.service';
+import { AlterInfoProfileRequest, AlterInfoProfileResponse } from '../../../profile/interfaces';
 import { Emoji } from '../../../config/interfaces';
 
 @Component({
@@ -15,14 +17,15 @@ import { Emoji } from '../../../config/interfaces';
 export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
+      private readonly profileService: ProfileService,
     ) {}
 
     emojiAll!: Emoji[];
     emojiAllFilter!: Emoji[];
 
     form = new FormGroup({
-      file: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
+      file: new FormControl<File | null>(null, [Validators.required]),
+      name: new FormControl<string>('', [Validators.required]),
     });
 
     ngOnInit(): void {
@@ -34,12 +37,57 @@ export class AlterProfileComponent implements OnInit {
       });
 
       this.form.valueChanges.subscribe(values => {
-        console.log(values);
+        this.alterProfile(values);
       });
     };
 
-    alterProfile(){
+    async alterProfile(values: Partial<{
+      file: File | null;
+      name: string | null;
+  }>){
+      let base64File = null;
+      let mimeType = null
+      if(values.file && values.file instanceof File) {
+          const fileResponse = await this.fileToBase64(values.file);
+          base64File = fileResponse.base64;
+          mimeType = fileResponse.mimeType;
 
+          const body: AlterInfoProfileRequest = {
+            base64File: base64File,
+            mimeType: mimeType,
+            name: values.name ? values.name : '',
+            description: '',
+            phone: '',
+          }
+
+          this.profileService.alterInfoProfile(body).subscribe({
+            next: (response: AlterInfoProfileResponse) => {},
+            error: (error) => {},
+            complete: () => {}
+          })
+      }
+    }
+
+    fileToBase64(file: File): Promise<{ base64: string, mimeType: string }> {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+    
+        reader.onloadend = () => {
+          if (typeof reader.result === 'string') {
+            const base64String = reader.result.split(',')[1]; // Extrai a parte base64
+            const mimeType = reader.result.split(';')[0].split(':')[1]; // Extrai o tipo MIME (image/jpeg, image/png, etc.)
+            resolve({ base64: base64String, mimeType });
+          } else {
+            reject('Erro ao ler o arquivo');
+          }
+        };
+    
+        reader.onerror = (error) => {
+          reject(error);
+        };
+    
+        reader.readAsDataURL(file); // Lê o arquivo como DataURL
+      });
     }
 
     filterEmojis(e: Event){
@@ -92,6 +140,11 @@ export class AlterProfileComponent implements OnInit {
         // só funciona dentro da mesma página
         const url = URL.createObjectURL(files[0]);
         this.filePhoto = url;
+
+        this.form.patchValue({
+          file: files[0]
+        });
+        this.form.get('file')?.updateValueAndValidity();
       }
     }
   
