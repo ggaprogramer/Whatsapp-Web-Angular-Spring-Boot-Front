@@ -8,3 +8,9 @@ export interface EmojiStructure {
     name: string;
     value: string;
 }
+
+export interface StatusResponse {
+    status: string;
+    message: string;
+    type: string;
+}

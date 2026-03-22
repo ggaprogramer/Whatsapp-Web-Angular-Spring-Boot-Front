@@ -1,184 +1,193 @@
-<form [formGroup]="form" class="container-alter-profile-info">
+<form [formGroup]="form" (submit)="alterProfile()" class="container-alter-profile-info">
     <div class="container-alter-profile-info_header">
         <h1>Perfil</h1>
     </div>
-    <div class="container-alter-profile-info_photo">
-        <div class="container-alter-profile-info_photo_box">
-            <img #tagImgFileProfile
-            [src]="filePhoto" accept="image/*">
-            <button type="button" #variableContainerAlterProfileInfoPhoto 
-            (click)="toggleContainerAlterProfileInfoPhoto()">
-                <span class="material-symbols-outlined">
-                    photo_library
-                </span>
-                <p>
-                    Mudar foto <br> do perfil
-                </p>
-            </button>
-            <div>
-                <button>
+    <ng-container *ngIf="this.profileInfo && this.form.get('name')">
+        <div class="container-alter-profile-info_photo">
+            <div class="container-alter-profile-info_photo_box">
+                <img #tagImgFileProfile
+                [src]="filePhoto" accept="image/*">
+                <button type="button" #variableContainerAlterProfileInfoPhoto 
+                (click)="toggleContainerAlterProfileInfoPhoto()">
                     <span class="material-symbols-outlined">
-                        visibility
+                        photo_library
                     </span>
                     <p>
-                        Mostrar foto
+                        Mudar foto <br> do perfil
                     </p>
                 </button>
-                <button>
-                    <span class="material-symbols-outlined">
-                        photo_camera
-                    </span>
-                    <p>
-                        Tirar foto
-                    </p>
-                </button>
-                <button (click)="alterFilePhoto($event)">
-                    <span class="material-symbols-outlined">
-                        upload_file
-                    </span>
-                    <p>
-                        Carregar foto
-                    </p>
-                    <input (change)="handleFilePhoto($event)" 
-                    #inputFilePhotoProfile type="file">
-                </button>
-                <span></span>
-                <button>
-                    <span class="material-symbols-outlined">
-                        delete
-                    </span>
-                    <p>
-                        Remover foto
-                    </p>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-alter-profile-info_name">
-        <p>
-            Nome
-        </p>
-        <div #variableAlterNameBox class="container-alter-name_box">
-            <input (input)="alterNameLength()" formControlName="name"
-            class="container-alter-profile-info_name_input"
-            #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
-            <div class="container-alter-profile-info_name_buttons">
-                <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>
-                <button (click)="toggleBoxEmojis()" *ngIf="variableOpenEditName" type="button">
-                    <span class="material-symbols-outlined">
-                        add_reaction
-                    </span>
-                </button>
-                <button *ngIf="variableOpenEditName" type="button" (click)="closeEditName()">
-                    <span class="material-symbols-outlined">
-                        check
-                    </span>
-                </button>
-                <button *ngIf="!variableOpenEditName" type="button" (click)="openEditName()">
-                    <span class="material-symbols-outlined">
-                        edit
-                    </span>
-                </button>
-            </div>
-            <div #variableContainerEmoji class="container-alter-name_box_emoji">
-                <div class="container-alter-name_box_emoji_header">
-                    <button class="container-alter-name_box_emoji_header_button 
-                    container-alter-name_box_emoji_header_button--selected" 
-                    varscroll="SCHEDULE" type="button" (click)="buttonIconEmojiScroll($event)">
+                <div>
+                    <button type="button">
                         <span class="material-symbols-outlined">
-                            schedule
+                            visibility
                         </span>
+                        <p>
+                            Mostrar foto
+                        </p>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="SMILEYS_AND_PEOPLE" type="button" (click)="buttonIconEmojiScroll($event)">
+                    <button type="button">
                         <span class="material-symbols-outlined">
-                            mood
+                            photo_camera
                         </span>
+                        <p>
+                            Tirar foto
+                        </p>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="ANIMALS_AND_NATURE" type="button" (click)="buttonIconEmojiScroll($event)">
+                    <button type="button" (click)="alterFilePhoto($event)">
                         <span class="material-symbols-outlined">
-                            pets
+                            upload_file
                         </span>
+                        <p>
+                            Carregar foto
+                        </p>
+                        <input (change)="handleFilePhoto($event)" 
+                        #inputFilePhotoProfile type="file">
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="FOOD_AND_DRINK" type="button" (click)="buttonIconEmojiScroll($event)">
+                    <span></span>
+                    <button type="button">
                         <span class="material-symbols-outlined">
-                            emoji_food_beverage
+                            delete
                         </span>
+                        <p>
+                            Remover foto
+                        </p>
                     </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="ACTIVITIES" type="button" (click)="buttonIconEmojiScroll($event)">
-                        <span class="material-symbols-outlined">
-                            sports_basketball
-                        </span>
-                    </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="TRAVEL_AND_PLACES" type="button" (click)="buttonIconEmojiScroll($event)">
-                        <span class="material-symbols-outlined">
-                            directions_car
-                        </span>
-                    </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="OBJECTS" type="button" (click)="buttonIconEmojiScroll($event)">
-                        <span class="material-symbols-outlined">
-                            emoji_objects
-                        </span>
-                    </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="SYMBOLS" type="button" (click)="buttonIconEmojiScroll($event)">
-                        <span class="material-symbols-outlined">
-                            emoji_symbols
-                        </span>
-                    </button>
-                    <button class="container-alter-name_box_emoji_header_button" 
-                    varscroll="FLAGS" type="button" (click)="buttonIconEmojiScroll($event)">
-                        <span class="material-symbols-outlined">
-                            flag
-                        </span>
-                    </button>
-                </div>
-                <div class="container-alter-name_box_emoji_search">
-                    <div>
-                        <span class="material-symbols-outlined">
-                            search
-                        </span>
-                        <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
-                    </div>
-                </div>
-                <div #containerAlterNameBoxEmojiBox 
-                (scroll)="boxEmojiEventListener($event)"
-                class="container-alter-name_box_emoji_box">
-                    <div class="container-alter-name_box_emoji_box_child var-scroll-SCHEDULE">
-                        <p>Recentes</p>
-                        <div class="container-alter-name_box_emoji_box_emojis">
-                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                            <button (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                        </div>
-                    </div>
-                    <ng-container *ngFor="let emojiDTO of emojiAllFilter; index as i">
-                        <div [class]="'container-alter-name_box_emoji_box_child var-scroll-' + emojiDTO.valueType">
-                            <ng-container *ngIf="emojiDTO.emojis.length > 0">
-                                <p>{{emojiDTO.nameType}}</p>    
-                                <div class="container-alter-name_box_emoji_box_emojis">          
-                                    <ng-container *ngFor="let emoji of emojiDTO.emojis">
-                                        <button (click)="insertEmojiName(emoji.value)">{{ emoji.value }}</button>
-                                    </ng-container>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </ng-container>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container-alter-profile-info_description">
+        <div class="container-alter-profile-info_name">
+            <p>
+                Nome
+            </p>
+            <div #variableAlterNameBox class="container-alter-name_box">
+                <input (input)="alterNameLength()" formControlName="name"
+                class="container-alter-profile-info_name_input"
+                #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
+                <div class="container-alter-profile-info_name_buttons">
+                    <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>
+                    <button (click)="toggleBoxEmojis()" *ngIf="variableOpenEditName" type="button">
+                        <span class="material-symbols-outlined">
+                            add_reaction
+                        </span>
+                    </button>
+                    <button *ngIf="variableOpenEditName" type="button" (click)="closeEditName()">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                    </button>
+                    <button *ngIf="!variableOpenEditName" type="button" (click)="openEditName()">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </button>
+                </div>
+                <div #variableContainerEmoji class="container-alter-name_box_emoji">
+                    <div class="container-alter-name_box_emoji_header">
+                        <button class="container-alter-name_box_emoji_header_button 
+                        container-alter-name_box_emoji_header_button--selected" 
+                        varscroll="SCHEDULE" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="SMILEYS_AND_PEOPLE" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                mood
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="ANIMALS_AND_NATURE" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                pets
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="FOOD_AND_DRINK" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                emoji_food_beverage
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="ACTIVITIES" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                sports_basketball
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="TRAVEL_AND_PLACES" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                directions_car
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="OBJECTS" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                emoji_objects
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="SYMBOLS" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                emoji_symbols
+                            </span>
+                        </button>
+                        <button class="container-alter-name_box_emoji_header_button" 
+                        varscroll="FLAGS" type="button" (click)="buttonIconEmojiScroll($event)">
+                            <span class="material-symbols-outlined">
+                                flag
+                            </span>
+                        </button>
+                    </div>
+                    <div class="container-alter-name_box_emoji_search">
+                        <div>
+                            <span class="material-symbols-outlined">
+                                search
+                            </span>
+                            <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
+                        </div>
+                    </div>
+                    <div #containerAlterNameBoxEmojiBox 
+                    (scroll)="boxEmojiEventListener($event)"
+                    class="container-alter-name_box_emoji_box">
+                        <div class="container-alter-name_box_emoji_box_child var-scroll-SCHEDULE">
+                            <p>Recentes</p>
+                            <div class="container-alter-name_box_emoji_box_emojis">
+                                <button type="button" (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                                <button type="button" (click)="insertEmojiName('✌🏻')">✌🏻</button>
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let emojiDTO of emojiAllFilter; index as i">
+                            <div [class]="'container-alter-name_box_emoji_box_child var-scroll-' + emojiDTO.valueType">
+                                <ng-container *ngIf="emojiDTO.emojis.length > 0">
+                                    <p>{{emojiDTO.nameType}}</p>    
+                                    <div class="container-alter-name_box_emoji_box_emojis">          
+                                        <ng-container *ngFor="let emoji of emojiDTO.emojis">
+                                            <button type="button" (click)="insertEmojiName(emoji.value)">{{ emoji.value }}</button>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    </div>
+        <div class="container-alter-profile-info_description">
 
-    <div class="container-alter-profile-info_phone">
+        </div>
 
-    </div>
+        <div class="container-alter-profile-info_phone">
+
+        </div>
+
+        <button type="submit" *ngIf="!formLoader" class="container-alter-profile-info_button">Salvar</button>
+        <span class="loader" *ngIf="formLoader"></span>
+    </ng-container>
+
+    <ng-container *ngIf="!this.profileInfo">
+        <span class="loader"></span>
+    </ng-container>
 </form>

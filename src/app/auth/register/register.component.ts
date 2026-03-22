@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service.service';
 import { RegisterRequest, RegisterResponse } from '../interfaces';
 import { passwordsMatchValidator } from '../validators';
-import { tap } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -40,22 +40,19 @@ export class RegisterComponent {
         password2: this.form.value.password2!,
         roles: ['USER']
       };
+
+      this.formLoader = true;
       this.authService.register(registerRequest)
       .pipe(
-        tap(value => { 
-          this.formLoader = true;
+        finalize(() => { 
+          this.formLoader = false;
         })
       )
       .subscribe({
         next: (response: RegisterResponse) => {
           this.router.navigate(['/auth/login']);
         },
-        error: (error) => {
-          this.formLoader = false;
-        },
-        complete: () => { 
-          this.formLoader = false; 
-        }
+        error: (error) => {}
       });
     }
   }

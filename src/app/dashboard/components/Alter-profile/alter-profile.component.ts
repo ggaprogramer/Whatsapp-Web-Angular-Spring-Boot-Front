@@ -3,9 +3,11 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
+import { StatusResponse } from '../../../config/interfaces';
 import { ProfileService } from '../../../profile/service/profile-service.service';
 import { AlterInfoProfileRequest, AlterInfoProfileResponse } from '../../../profile/interfaces';
 import { Emoji } from '../../../config/interfaces';
+import { tap, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alter-profile',
@@ -22,11 +24,14 @@ export class AlterProfileComponent implements OnInit {
 
     emojiAll!: Emoji[];
     emojiAllFilter!: Emoji[];
+    profileInfo!: AlterInfoProfileResponse;
+    filePhoto: string = '/user.png';
 
     form = new FormGroup({
       file: new FormControl<File | null>(null, [Validators.required]),
       name: new FormControl<string>('', [Validators.required]),
     });
+    formLoader = false;
 
     ngOnInit(): void {
       this.emojiService.emojiAll().subscribe({
@@ -36,36 +41,52 @@ export class AlterProfileComponent implements OnInit {
         }
       });
 
-      this.form.valueChanges.subscribe(values => {
-        this.alterProfile(values);
-      });
+      this.profileService.getInfoProfile().subscribe({
+        next: (profileInfo: AlterInfoProfileResponse) => {
+          this.profileInfo = profileInfo;
+          if(this.profileInfo.linkPhoto) {
+            this.filePhoto = profileInfo.linkPhoto;
+          }
+          console.log(this.profileInfo);
+          this.form.patchValue({name: this.profileInfo.name});
+          this.form.get('name')?.updateValueAndValidity();
+        }
+      })
     };
 
-    async alterProfile(values: Partial<{
-      file: File | null;
-      name: string | null;
-  }>){
+    async alterProfile(){
+      const values : Partial<{
+          file: File | null;
+          name: string | null;
+      }> = this.form.value;
+      console.log(values);
       let base64File = null;
       let mimeType = null
       if(values.file && values.file instanceof File) {
           const fileResponse = await this.fileToBase64(values.file);
           base64File = fileResponse.base64;
           mimeType = fileResponse.mimeType;
-
-          const body: AlterInfoProfileRequest = {
-            base64File: base64File,
-            mimeType: mimeType,
-            name: values.name ? values.name : '',
-            description: '',
-            phone: '',
-          }
-
-          this.profileService.alterInfoProfile(body).subscribe({
-            next: (response: AlterInfoProfileResponse) => {},
-            error: (error) => {},
-            complete: () => {}
-          })
       }
+
+      const body: AlterInfoProfileRequest = {
+        base64File: base64File,
+        mimeType: mimeType,
+        name: values.name ? values.name : '',
+        description: '',
+        phone: '',
+      }
+  
+      this.formLoader = true;
+      this.profileService.alterInfoProfile(body)
+      .pipe(
+        finalize(() => { 
+          this.formLoader = false;
+        })
+      )
+      .subscribe({
+        next: (response: StatusResponse) => {},
+        error: (error) => {},
+      });
     }
 
     fileToBase64(file: File): Promise<{ base64: string, mimeType: string }> {
@@ -120,8 +141,6 @@ export class AlterProfileComponent implements OnInit {
     @ViewChild('variableContainerAlterProfileInfoPhoto') variableContainerAlterProfileInfoPhoto!: ElementRef<HTMLButtonElement>;
     @ViewChild('inputFilePhotoProfile') inputFilePhotoProfile!: ElementRef<HTMLInputElement>;
     @ViewChild('tagImgFileProfile') tagImgFileProfile!: ElementRef<HTMLElement>;
-
-    filePhoto: string = '/user.png';
 
     alterFilePhoto(e: Event){
       const el = e.target as HTMLButtonElement;
@@ -179,10 +198,12 @@ export class AlterProfileComponent implements OnInit {
     closeEditName(){
       this.variableOpenEditName = false;
       this.variableAlterNameBox.nativeElement.classList.remove('container-alter-name_box--edit');
+      this.toggleBoxEmojis();
     }
 
     insertEmojiName(emoji: string){
-      this.variableInputName.nativeElement.value += emoji;
+      this.form.patchValue({name: this.profileInfo.name += emoji});
+      this.form.get('name')?.updateValueAndValidity();
     }
 
     @ViewChild('variableContainerEmoji') variableContainerEmoji!: ElementRef<HTMLDivElement>;
