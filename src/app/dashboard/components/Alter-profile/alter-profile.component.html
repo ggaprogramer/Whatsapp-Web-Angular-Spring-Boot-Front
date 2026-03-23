@@ -56,134 +56,85 @@
             </div>
         </div>
 
-        <div class="container-alter-profile-info_name">
+        <div class="container-alter-profile-info_field">
             <p>
                 Nome
             </p>
-            <div #variableAlterNameBox class="container-alter-name_box">
-                <input (input)="alterNameLength()" formControlName="name"
-                class="container-alter-profile-info_name_input"
-                #variableInputName (focus)="inputNameFocus()" type="text" placeholder="Digite seu nome">
-                <div class="container-alter-profile-info_name_buttons">
+            <div #variableAlterNameBox class="container-alter-field_box container-alter-name_box">
+                <input (input)="alterFieldLength('name')" formControlName="name"
+                class="container-alter-profile-info_field_input" [maxLength]="255"
+                #variableInputName (focus)="inputFieldFocus('name')" type="text" placeholder="Digite seu nome">
+                <div class="container-alter-profile-info_field_buttons">
                     <p *ngIf="variableOpenEditName">{{ variableInputNameLength }}</p>
-                    <button (click)="toggleBoxEmojis()" *ngIf="variableOpenEditName" type="button">
+                    <button (click)="toggleBoxEmojis('name')" *ngIf="variableOpenEditName" type="button">
                         <span class="material-symbols-outlined">
                             add_reaction
                         </span>
                     </button>
-                    <button *ngIf="variableOpenEditName" type="button" (click)="closeEditName()">
+                    <button *ngIf="variableOpenEditName" type="button" (click)="closeEditField('name')">
                         <span class="material-symbols-outlined">
                             check
                         </span>
                     </button>
-                    <button *ngIf="!variableOpenEditName" type="button" (click)="openEditName()">
+                    <button *ngIf="!variableOpenEditName" type="button" (click)="openEditField('name')">
                         <span class="material-symbols-outlined">
                             edit
                         </span>
                     </button>
-                </div>
-                <div #variableContainerEmoji class="container-alter-name_box_emoji">
-                    <div class="container-alter-name_box_emoji_header">
-                        <button class="container-alter-name_box_emoji_header_button 
-                        container-alter-name_box_emoji_header_button--selected" 
-                        varscroll="SCHEDULE" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                schedule
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="SMILEYS_AND_PEOPLE" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                mood
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="ANIMALS_AND_NATURE" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                pets
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="FOOD_AND_DRINK" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                emoji_food_beverage
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="ACTIVITIES" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                sports_basketball
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="TRAVEL_AND_PLACES" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                directions_car
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="OBJECTS" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                emoji_objects
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="SYMBOLS" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                emoji_symbols
-                            </span>
-                        </button>
-                        <button class="container-alter-name_box_emoji_header_button" 
-                        varscroll="FLAGS" type="button" (click)="buttonIconEmojiScroll($event)">
-                            <span class="material-symbols-outlined">
-                                flag
-                            </span>
-                        </button>
-                    </div>
-                    <div class="container-alter-name_box_emoji_search">
-                        <div>
-                            <span class="material-symbols-outlined">
-                                search
-                            </span>
-                            <input (input)="filterEmojis($event)" type="text" placeholder="Pesquisar emojis">
-                        </div>
-                    </div>
-                    <div #containerAlterNameBoxEmojiBox 
-                    (scroll)="boxEmojiEventListener($event)"
-                    class="container-alter-name_box_emoji_box">
-                        <div class="container-alter-name_box_emoji_box_child var-scroll-SCHEDULE">
-                            <p>Recentes</p>
-                            <div class="container-alter-name_box_emoji_box_emojis">
-                                <button type="button" (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                                <button type="button" (click)="insertEmojiName('✌🏻')">✌🏻</button>
-                            </div>
-                        </div>
-                        <ng-container *ngFor="let emojiDTO of emojiAllFilter; index as i">
-                            <div [class]="'container-alter-name_box_emoji_box_child var-scroll-' + emojiDTO.valueType">
-                                <ng-container *ngIf="emojiDTO.emojis.length > 0">
-                                    <p>{{emojiDTO.nameType}}</p>    
-                                    <div class="container-alter-name_box_emoji_box_emojis">          
-                                        <ng-container *ngFor="let emoji of emojiDTO.emojis">
-                                            <button type="button" (click)="insertEmojiName(emoji.value)">{{ emoji.value }}</button>
-                                        </ng-container>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </ng-container>
-                    </div>
+                    <app-emojis 
+                    [formProfile]="this.form" 
+                    [emojiAll]="this.emojiAll" 
+                    [emojiAllFilter]="this.emojiAllFilter" 
+                    [profileInfo]="this.profileInfo"
+                    [view]="viewEmojis['name']"
+                    [type]="'name'"></app-emojis>
                 </div>
             </div>
         </div>
 
-        <div class="container-alter-profile-info_description">
-
+        <div class="container-alter-profile-info_field">
+            <p>
+                Descrição
+            </p>
+            <div #variableAlterDescriptionBox class="container-alter-field_box container-alter-description_box">
+                <input (input)="alterFieldLength('description')" formControlName="description"
+                class="container-alter-profile-info_field_input" [maxLength]="255"
+                #variableInputDescription (focus)="inputFieldFocus('description')" type="text" placeholder="Escreva um pouco sobre você">
+                <div class="container-alter-profile-info_field_buttons">
+                    <p *ngIf="variableOpenEditDescription">{{ variableInputDescriptionLength }}</p>
+                    <button (click)="toggleBoxEmojis('description')" *ngIf="variableOpenEditDescription" type="button">
+                        <span class="material-symbols-outlined">
+                            add_reaction
+                        </span>
+                    </button>
+                    <button *ngIf="variableOpenEditDescription" type="button" (click)="closeEditField('description')">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                    </button>
+                    <button *ngIf="!variableOpenEditDescription" type="button" (click)="openEditField('description')">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </button>
+                    <app-emojis 
+                    [formProfile]="this.form" 
+                    [emojiAll]="this.emojiAll" 
+                    [emojiAllFilter]="this.emojiAllFilter" 
+                    [profileInfo]="this.profileInfo"
+                    [view]="viewEmojis['description']"
+                    [type]="'description'"></app-emojis>
+                </div>
+            </div>
         </div>
 
         <div class="container-alter-profile-info_phone">
 
         </div>
 
-        <button type="submit" *ngIf="!formLoader" class="container-alter-profile-info_button">Salvar</button>
+        <button [disabled]="formButtonDisabled" 
+        type="submit" *ngIf="!formLoader" 
+        class="container-alter-profile-info_button">Salvar</button>
         <span class="loader" *ngIf="formLoader"></span>
     </ng-container>
 

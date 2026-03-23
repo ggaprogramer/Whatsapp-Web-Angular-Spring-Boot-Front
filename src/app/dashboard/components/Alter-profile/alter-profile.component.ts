@@ -8,11 +8,12 @@ import { ProfileService } from '../../../profile/service/profile-service.service
 import { AlterInfoProfileRequest, AlterInfoProfileResponse } from '../../../profile/interfaces';
 import { Emoji } from '../../../config/interfaces';
 import { tap, finalize } from 'rxjs/operators';
+import { EmojisComponent } from '../Emojis/emojis.component';
 
 @Component({
   selector: 'app-alter-profile',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, FormsModule, EmojisComponent],
   templateUrl: './alter-profile.component.html',
   styleUrl: './alter-profile.component.scss'
 })
@@ -30,7 +31,14 @@ export class AlterProfileComponent implements OnInit {
     form = new FormGroup({
       file: new FormControl<File | null>(null, [Validators.required]),
       name: new FormControl<string>('', [Validators.required]),
+      description: new FormControl<string>('', [Validators.required]),
     });
+    formButtonDisabled: boolean = false;
+    viewEmojis: Record<string, boolean> = {
+      name: false,
+      username: false,
+      description: false
+    }
     formLoader = false;
 
     ngOnInit(): void {
@@ -47,19 +55,20 @@ export class AlterProfileComponent implements OnInit {
           if(this.profileInfo.linkPhoto) {
             this.filePhoto = profileInfo.linkPhoto;
           }
-          console.log(this.profileInfo);
           this.form.patchValue({name: this.profileInfo.name});
           this.form.get('name')?.updateValueAndValidity();
+          this.form.patchValue({description: this.profileInfo.description});
+          this.form.get('description')?.updateValueAndValidity();
         }
-      })
+      });
     };
 
     async alterProfile(){
       const values : Partial<{
           file: File | null;
           name: string | null;
+          description: string | null
       }> = this.form.value;
-      console.log(values);
       let base64File = null;
       let mimeType = null
       if(values.file && values.file instanceof File) {
@@ -72,7 +81,7 @@ export class AlterProfileComponent implements OnInit {
         base64File: base64File,
         mimeType: mimeType,
         name: values.name ? values.name : '',
-        description: '',
+        description: values.description ? values.description : '',
         phone: '',
       }
   
@@ -111,33 +120,6 @@ export class AlterProfileComponent implements OnInit {
       });
     }
 
-    filterEmojis(e: Event){
-      const inputSearch = e.target as HTMLInputElement;
-
-      this.emojiAllFilter = [];
-      if(inputSearch.value){
-        for(let emojiObject of this.emojiAll){
-          const emojiTemp: Emoji = {
-            nameType: emojiObject.nameType,
-            valueType: emojiObject.valueType,
-            emojis: []
-          };
-
-          for(let emoji of emojiObject.emojis) {
-            if(emoji.name.toLowerCase().indexOf(inputSearch.value.toLowerCase()) !== -1){
-              emojiTemp.emojis.push({
-                name: emoji.name,
-                value: emoji.value
-              })
-            }
-          }
-          this.emojiAllFilter.push(emojiTemp);
-        }
-      } else {
-        this.emojiAllFilter = this.emojiAll;
-      }
-    }
-
     @ViewChild('variableContainerAlterProfileInfoPhoto') variableContainerAlterProfileInfoPhoto!: ElementRef<HTMLButtonElement>;
     @ViewChild('inputFilePhotoProfile') inputFilePhotoProfile!: ElementRef<HTMLInputElement>;
     @ViewChild('tagImgFileProfile') tagImgFileProfile!: ElementRef<HTMLElement>;
@@ -172,95 +154,97 @@ export class AlterProfileComponent implements OnInit {
       .nativeElement.nextElementSibling!.classList.toggle('container-alter-profile-info-photo--view');
     }
 
+    // Field Name - Start
     @ViewChild('variableInputName') variableInputName!: ElementRef<HTMLInputElement>;
     variableInputNameLength!: number;
     variableOpenEditName: boolean = false;
-
     @ViewChild('variableAlterNameBox') variableAlterNameBox!: ElementRef<HTMLDivElement>;
+    // Field Name - End
 
-    inputNameFocus(){
-      this.openEditName();
+    // Field Description - Start
+    @ViewChild('variableInputDescription') variableInputDescription!: ElementRef<HTMLInputElement>;
+    variableInputDescriptionLength!: number;
+    variableOpenEditDescription: boolean = false;
+    @ViewChild('variableAlterDescriptionBox') variableAlterDescriptionBox!: ElementRef<HTMLDivElement>;
+    // Field Description - End
+
+    inputFieldFocus(type: string){
+      this.openEditField(type);
     }
 
-    alterNameLength(){
-      this.variableInputNameLength = 
-      this.variableInputName.nativeElement.value.length ?
-      this.variableInputName.nativeElement.value.length : 0;
+    alterFieldLength(type: string){
+      if(type === 'name'){
+        this.variableInputNameLength = 
+        this.variableInputName.nativeElement.value.length ?
+        this.variableInputName.nativeElement.value.length : 0;
+      } else if(type === 'description'){
+        this.variableInputDescriptionLength = 
+        this.variableInputDescription.nativeElement.value.length ?
+        this.variableInputDescription.nativeElement.value.length : 0;
+      }
     }
 
-    openEditName(){
-      this.variableOpenEditName = true;
-      this.variableAlterNameBox.nativeElement.classList.add('container-alter-name_box--edit');
-      this.variableInputName.nativeElement.focus();
-      this.alterNameLength();
+    openEditField(type: string){
+      if(type === 'name'){
+        this.variableOpenEditName = true;
+        this.variableAlterNameBox.nativeElement.classList.add('container-alter-field_box--edit');
+        this.variableInputName.nativeElement.focus();
+      } else if(type === 'description'){
+        this.variableOpenEditDescription = true;
+        this.variableAlterDescriptionBox.nativeElement.classList.add('container-alter-field_box--edit');
+        this.variableInputDescription.nativeElement.focus();
+      }
+
+      this.alterFieldLength(type);
+      this.disabledButtonForm();
     }
 
-    closeEditName(){
-      this.variableOpenEditName = false;
-      this.variableAlterNameBox.nativeElement.classList.remove('container-alter-name_box--edit');
-      this.toggleBoxEmojis();
+    closeEditField(type: string){
+      if(type === 'name'){
+        this.variableOpenEditName = false;
+        this.variableAlterNameBox.nativeElement.classList.remove('container-alter-field_box--edit');
+      } else if(type === 'description'){
+        this.variableOpenEditDescription = false;
+        this.variableAlterDescriptionBox.nativeElement.classList.remove('container-alter-field_box--edit');
+      }
+      
+      this.toggleBoxEmojisAllNoView();
+      this.disabledButtonForm();
     }
 
-    insertEmojiName(emoji: string){
-      this.form.patchValue({name: this.profileInfo.name += emoji});
-      this.form.get('name')?.updateValueAndValidity();
-    }
-
-    @ViewChild('variableContainerEmoji') variableContainerEmoji!: ElementRef<HTMLDivElement>;
-    @ViewChild('containerAlterNameBoxEmojiBox') containerAlterNameBoxEmojiBox!: ElementRef<HTMLDivElement>;
-
-    boxEmojiEventListener(e: Event){
-        const el = e.target as HTMLDivElement;
-        const childrens = Array.from(el.children) as HTMLDivElement[];
-        const itemsIcons = document.querySelectorAll('.container-alter-name_box_emoji_header_button') as NodeListOf<HTMLButtonElement>;
-
-        childrens.forEach(item => {
-
-          const top = item.offsetTop;
-          const bottom = top + item.offsetHeight;
-
-          if (
-            top < el.scrollTop + el.clientHeight &&
-            bottom > el.scrollTop && itemsIcons &&
-            item.classList[1].indexOf('var-scroll') !== -1
-          ) {
-            let valueType = item.classList[1].substring(11);
-            itemsIcons.forEach(icon => {
-              if(icon.getAttribute('varscroll') === valueType){
-                icon.classList.add('container-alter-name_box_emoji_header_button--selected');
-              } else {
-                icon.classList.remove('container-alter-name_box_emoji_header_button--selected');
-              }
-            });
-          };
-
-      });
-    }
-
-    buttonIconEmojiScroll(e: Event){
-      const spanOnButton = e.target as HTMLButtonElement;
-
-      const box = Array.from(this.containerAlterNameBoxEmojiBox.nativeElement.children) as HTMLDivElement[];
-      box.forEach(element => {
-        let valueType = element.classList[1].substring(11);
-        if(spanOnButton.parentElement
-          && spanOnButton.parentElement.getAttribute('varscroll') === 'SCHEDULE'){
-          this.containerAlterNameBoxEmojiBox.nativeElement.scroll({
-            top: 0,
-            behavior: "smooth"
-          });
-        } else if(spanOnButton.parentElement
-          && spanOnButton.parentElement.getAttribute('varscroll') === valueType){
-          this.containerAlterNameBoxEmojiBox.nativeElement.scroll({
-            top: element.offsetTop - 130,
-            behavior: "smooth"
-          });
+    toggleBoxEmojis(type: string){
+      if(type == 'name'){
+        this.viewEmojis = {
+          ...this.viewEmojis,
+          name: !this.viewEmojis['name']
         }
-      });
+      } else if(type == 'description'){
+        this.viewEmojis = {
+          ...this.viewEmojis,
+          description: !this.viewEmojis['description']
+        }
+      };
+    }
+    toggleBoxEmojisAllNoView(){
+      this.viewEmojis = {
+        name: false
+      };
     }
 
-    toggleBoxEmojis(){
-      this.variableContainerEmoji.nativeElement.classList.toggle('container-alter-name_box_emoji--view');
+    disabledButtonForm(){
+      let control = true;
+      for(let i in this.viewEmojis){
+        if(this.viewEmojis[i]) {
+          this.formButtonDisabled = true;
+          control = false;
+          break;
+        }
+      };
+      if(control && !this.variableOpenEditName && !this.variableOpenEditDescription){
+        this.formButtonDisabled = false;
+      } else {
+        this.formButtonDisabled = true;
+      }
     }
 
 }
