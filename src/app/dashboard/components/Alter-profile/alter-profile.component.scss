@@ -8,11 +8,16 @@
     @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
 }
 
+.errors{
+    color: red;
+    font-size: 1.2rem;
+}
+
 .container-alter-profile-info {
     border: 1px solid red;
     border-right: $dark-mode-input-border 0.15rem solid;
     min-height: 100vh;
-    width: 65rem;
+    width: 100%;
     @include display-flex(column, nowrap, start, start, 2rem);
     @include padding(1rem, 1rem, 1rem, 1rem);
     background: $dark-mode-color-bg;
@@ -106,7 +111,12 @@
                         display: none;
                     }
 
-                    &:hover{
+                    &:disabled{
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+
+                    &:not(:disabled):hover{
                         color: $dark-mode-button-selected-text;
                         @include transform-scale(1.05);
                     }

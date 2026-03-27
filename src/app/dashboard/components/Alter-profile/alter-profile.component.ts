@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiService } from '../../../config/emoji-service.service';
@@ -7,7 +7,8 @@ import { StatusResponse } from '../../../config/interfaces';
 import { ProfileService } from '../../../profile/service/profile-service.service';
 import { AlterInfoProfileRequest, AlterInfoProfileResponse } from '../../../profile/interfaces';
 import { Emoji } from '../../../config/interfaces';
-import { tap, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { EmojisComponent } from '../Emojis/emojis.component';
 
 @Component({
@@ -21,23 +22,28 @@ export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
       private readonly profileService: ProfileService,
+      private readonly router: Router,
     ) {}
 
     emojiAll!: Emoji[];
     emojiAllFilter!: Emoji[];
     profileInfo!: AlterInfoProfileResponse;
-    filePhoto: string = '/user.png';
+    filePhotoUser: string = '/user.png';
+    filePhoto: string = this.filePhotoUser;
 
     form = new FormGroup({
-      file: new FormControl<File | null>(null, [Validators.required]),
-      name: new FormControl<string>('', [Validators.required]),
+      file: new FormControl<File | null>(null),
+      name: new FormControl<string>('', [Validators.required, Validators.maxLength(255)]),
       description: new FormControl<string>('', [Validators.required]),
+      phone: new FormControl<string>('', [Validators.required, 
+        Validators.pattern(/^\(\d{2}\)\s9\d{4}-\d{4}$/)]),
     });
     formButtonDisabled: boolean = false;
     viewEmojis: Record<string, boolean> = {
       name: false,
       username: false,
-      description: false
+      description: false,
+      phone: false,
     }
     formLoader = false;
 
@@ -59,6 +65,8 @@ export class AlterProfileComponent implements OnInit {
           this.form.get('name')?.updateValueAndValidity();
           this.form.patchValue({description: this.profileInfo.description});
           this.form.get('description')?.updateValueAndValidity();
+          this.form.patchValue({phone: this.profileInfo.phone});
+          this.form.get('phone')?.updateValueAndValidity();
         }
       });
     };
@@ -67,7 +75,8 @@ export class AlterProfileComponent implements OnInit {
       const values : Partial<{
           file: File | null;
           name: string | null;
-          description: string | null
+          description: string | null;
+          phone: string | null;
       }> = this.form.value;
       let base64File = null;
       let mimeType = null
@@ -82,7 +91,7 @@ export class AlterProfileComponent implements OnInit {
         mimeType: mimeType,
         name: values.name ? values.name : '',
         description: values.description ? values.description : '',
-        phone: '',
+        phone: values.phone ? values.phone : '',
       }
   
       this.formLoader = true;
@@ -90,11 +99,20 @@ export class AlterProfileComponent implements OnInit {
       .pipe(
         finalize(() => { 
           this.formLoader = false;
+        }),
+        catchError(error => {
+          console.log(error)
+          /* this.form.setErrors({
+            ...errors,
+            system: error.message
+          }); */
+          return of([]);
         })
       )
       .subscribe({
-        next: (response: StatusResponse) => {},
-        error: (error) => {},
+        next: (response: StatusResponse) => {
+          console.log('response', response);
+        }
       });
     }
 
@@ -145,7 +163,22 @@ export class AlterProfileComponent implements OnInit {
         this.form.patchValue({
           file: files[0]
         });
-        this.form.get('file')?.updateValueAndValidity();
+        this.form.updateValueAndValidity();
+        this.form.markAsDirty();
+      }
+    }
+
+    removePhoto(){
+      this.form.patchValue({
+          file: null
+      });
+      this.filePhoto = this.filePhotoUser;
+      this.form.updateValueAndValidity();
+    }
+
+    viewPhoto(){
+      if(this.filePhoto != this.filePhotoUser){
+        window.open(this.filePhoto, '_blank');
       }
     }
   
@@ -168,6 +201,13 @@ export class AlterProfileComponent implements OnInit {
     @ViewChild('variableAlterDescriptionBox') variableAlterDescriptionBox!: ElementRef<HTMLDivElement>;
     // Field Description - End
 
+    // Field Description - Start
+    @ViewChild('variableInputPhone') variableInputPhone!: ElementRef<HTMLInputElement>;
+    variableInputPhoneLength!: number;
+    variableOpenEditPhone: boolean = false;
+    @ViewChild('variableAlterPhoneBox') variableAlterPhoneBox!: ElementRef<HTMLDivElement>;
+    // Field Description - End
+
     inputFieldFocus(type: string){
       this.openEditField(type);
     }
@@ -181,6 +221,10 @@ export class AlterProfileComponent implements OnInit {
         this.variableInputDescriptionLength = 
         this.variableInputDescription.nativeElement.value.length ?
         this.variableInputDescription.nativeElement.value.length : 0;
+      } else if(type === 'phone'){
+        this.variableInputPhoneLength = 
+        this.variableInputPhone.nativeElement.value.length ?
+        this.variableInputPhone.nativeElement.value.length : 0;
       }
     }
 
@@ -193,6 +237,10 @@ export class AlterProfileComponent implements OnInit {
         this.variableOpenEditDescription = true;
         this.variableAlterDescriptionBox.nativeElement.classList.add('container-alter-field_box--edit');
         this.variableInputDescription.nativeElement.focus();
+      } else if(type === 'phone'){
+        this.variableOpenEditPhone = true;
+        this.variableAlterPhoneBox.nativeElement.classList.add('container-alter-field_box--edit');
+        this.variableInputPhone.nativeElement.focus();
       }
 
       this.alterFieldLength(type);
@@ -206,6 +254,9 @@ export class AlterProfileComponent implements OnInit {
       } else if(type === 'description'){
         this.variableOpenEditDescription = false;
         this.variableAlterDescriptionBox.nativeElement.classList.remove('container-alter-field_box--edit');
+      } else if(type === 'phone'){
+        this.variableOpenEditPhone = false;
+        this.variableAlterPhoneBox.nativeElement.classList.remove('container-alter-field_box--edit');
       }
       
       this.toggleBoxEmojisAllNoView();
@@ -223,7 +274,7 @@ export class AlterProfileComponent implements OnInit {
           ...this.viewEmojis,
           description: !this.viewEmojis['description']
         }
-      };
+      } 
     }
     toggleBoxEmojisAllNoView(){
       this.viewEmojis = {
@@ -240,7 +291,9 @@ export class AlterProfileComponent implements OnInit {
           break;
         }
       };
-      if(control && !this.variableOpenEditName && !this.variableOpenEditDescription){
+      if(control && !this.variableOpenEditName 
+        && !this.variableOpenEditDescription
+       && !this.variableOpenEditPhone){
         this.formButtonDisabled = false;
       } else {
         this.formButtonDisabled = true;

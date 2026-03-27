@@ -22,6 +22,7 @@ export class EmojisComponent {
       file: FormControl<File | null>;
       name: FormControl<string | null>;
       description: FormControl<string | null>;
+      phone: FormControl<string | null>;
   }>
   @Input({ required: true }) emojiAll!: Emoji[];
   @Input({ required: true }) emojiAllFilter!: Emoji[];

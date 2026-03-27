@@ -2,7 +2,7 @@
     <div class="container-alter-profile-info_header">
         <h1>Perfil</h1>
     </div>
-    <ng-container *ngIf="this.profileInfo && this.form.get('name')">
+    <ng-container *ngIf="this.profileInfo">
         <div class="container-alter-profile-info_photo">
             <div class="container-alter-profile-info_photo_box">
                 <img #tagImgFileProfile
@@ -17,7 +17,7 @@
                     </p>
                 </button>
                 <div>
-                    <button type="button">
+                    <button [disabled]="filePhoto == filePhotoUser" (click)="viewPhoto()" type="button">
                         <span class="material-symbols-outlined">
                             visibility
                         </span>
@@ -44,7 +44,7 @@
                         #inputFilePhotoProfile type="file">
                     </button>
                     <span></span>
-                    <button type="button">
+                    <button [disabled]="filePhoto == filePhotoUser" (click)="removePhoto()" type="button">
                         <span class="material-symbols-outlined">
                             delete
                         </span>
@@ -90,6 +90,10 @@
                     [type]="'name'"></app-emojis>
                 </div>
             </div>
+            <span *ngIf="form.get('name')?.errors?.['required'] && form.touched"
+            class="errors">Esse campo é obrigatório.</span>
+            <span *ngIf="form.get('name')?.errors?.['maxlength'] && form.touched"
+            class="errors">Esse campo aceita até no máximo 255 caracteres</span>
         </div>
 
         <div class="container-alter-profile-info_field">
@@ -126,15 +130,56 @@
                     [type]="'description'"></app-emojis>
                 </div>
             </div>
+            <span *ngIf="form.get('description')?.errors?.['required'] && form.touched"
+            class="errors">Esse campo é obrigatório.</span>
+            <span *ngIf="form.get('description')?.errors?.['maxlength'] && form.touched"
+            class="errors">Esse campo aceita até no máximo 255 caracteres</span>
         </div>
 
-        <div class="container-alter-profile-info_phone">
-
+        <div class="container-alter-profile-info_field">
+            <p>
+                Celular
+            </p>
+            <div #variableAlterPhoneBox class="container-alter-field_box container-alter-phone_box">
+                <input (input)="alterFieldLength('phone')" formControlName="phone"
+                class="container-alter-profile-info_field_input" [maxLength]="20"
+                #variableInputPhone (focus)="inputFieldFocus('phone')" type="text" 
+                placeholder="(11) 99999-9999">
+                <div class="container-alter-profile-info_field_buttons">
+                    <p *ngIf="variableOpenEditPhone">{{ variableInputPhoneLength }}</p>
+                    <button *ngIf="variableOpenEditPhone" type="button" (click)="closeEditField('phone')">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                    </button>
+                    <button *ngIf="!variableOpenEditPhone" type="button" (click)="openEditField('phone')">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </button>
+                    <button type="button" (click)="closeEditField('phone')">
+                        <span class="material-symbols-outlined">
+                            content_copy
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <span *ngIf="form.get('phone')?.errors?.['required'] && form.touched"
+            class="errors">Esse campo é obrigatório.</span>
+            <span *ngIf="form.get('phone')?.errors?.['pattern'] && form.touched"
+            class="errors">O formato do número de celular enviado é inválido.</span>
         </div>
 
-        <button [disabled]="formButtonDisabled" 
+        <button [disabled]="formButtonDisabled || form.invalid || !form.dirty" 
         type="submit" *ngIf="!formLoader" 
         class="container-alter-profile-info_button">Salvar</button>
+
+        <span class="errors" *ngIf="form.invalid && form.touched">
+            Por favor, corrija os erros acima.
+        </span>
+        <span class="errors" *ngIf="form.invalid && form.errors?.['system']">
+            {{form.errors?.['system']}}
+        </span>
         <span class="loader" *ngIf="formLoader"></span>
     </ng-container>
 
