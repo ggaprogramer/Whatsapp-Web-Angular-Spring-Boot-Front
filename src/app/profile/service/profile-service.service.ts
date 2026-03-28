@@ -20,9 +20,6 @@ export class ProfileService {
         return this.http
         .put<StatusResponse>(this.configService.getApiUrl('/profile/update'), 
         alterInfoProfileRequest, { withCredentials: true })
-        .pipe(
-            catchError(this.configService.handleErrorHttp)
-        );
     }
 
     getInfoProfile(): Observable<AlterInfoProfileResponse> {

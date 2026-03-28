@@ -2,12 +2,13 @@ import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } fr
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { EmojiService } from '../../../config/emoji-service.service';
 import { StatusResponse } from '../../../config/interfaces';
 import { ProfileService } from '../../../profile/service/profile-service.service';
 import { AlterInfoProfileRequest, AlterInfoProfileResponse } from '../../../profile/interfaces';
 import { Emoji } from '../../../config/interfaces';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { EmojisComponent } from '../Emojis/emojis.component';
 
@@ -97,22 +98,22 @@ export class AlterProfileComponent implements OnInit {
       this.formLoader = true;
       this.profileService.alterInfoProfile(body)
       .pipe(
-        finalize(() => { 
+        finalize(() => {
           this.formLoader = false;
         }),
-        catchError(error => {
-          console.log(error)
-          /* this.form.setErrors({
+        catchError((error: HttpErrorResponse) => {
+          let errors = this.form.errors;
+          console.log(error);
+          const responseBody = error.error;
+          this.form.setErrors({
             ...errors,
-            system: error.message
-          }); */
-          return of([]);
+            system: responseBody.message
+          }); 
+          return of(responseBody);
         })
       )
       .subscribe({
-        next: (response: StatusResponse) => {
-          console.log('response', response);
-        }
+        next: (response) => {}
       });
     }
 
