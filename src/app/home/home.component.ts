@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth-service.service';
 
 @Component({
@@ -11,7 +11,9 @@ import { AuthService } from '../auth/services/auth-service.service';
 })
 export class HomeComponent {
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router) {}
 
   logout() {
     this.authService.logout().subscribe({
@@ -22,5 +24,9 @@ export class HomeComponent {
         console.error('Logout error:', error);
       }
     });
+  }
+
+  goDashboard(){
+    this.router.navigate(['/dashboard']);
   }
 }

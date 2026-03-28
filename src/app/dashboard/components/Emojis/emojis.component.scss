@@ -1,0 +1,150 @@
+@import 'utils', 'variables';
+
+:host{
+    width: 100%;
+    position: absolute;
+    top: 150%;
+    left: 10%;
+    z-index: 1000000;
+}
+
+.loader {
+    @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
+}
+
+.container-alter-field_box_emoji{
+    @include display-flex(column, nowrap, center, center, 1rem);
+    @include padding(1rem, 1.5rem, 1rem, 1.5rem);
+    @include border-radius(2rem);
+    background: $dark-mode-color-surface;
+    width: 55rem;
+    display: none;
+    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
+    @include transition(display, 0.5s, ease-in-out, 1s, normal);
+
+    p{
+        color: $dark-mode-color-text;
+        font-size: 1.5rem;
+    }
+
+    .container-alter-field_box_emoji_header{
+        width: 100%;
+        @include display-flex(row, nowrap, space-between, center, 1rem);
+        @include padding(1rem, 1rem, 1rem, 1rem);
+
+        .container-alter-field_box_emoji_header_button{
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
+            @include padding(0rem, 0rem, 0.5rem, 0rem);
+
+            span{
+                color: $dark-mode-button-default-text;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
+
+                &:hover{
+                    color: $dark-mode-color-text;
+                }
+
+                font-size: 2.5rem;
+            }
+        }
+
+        .container-alter-field_box_emoji_header_button--selected{
+            border-bottom: 0.25rem solid $primary-color;
+            span{
+                color: $dark-mode-color-text;
+            }
+        }
+    }
+
+    .container-alter-field_box_emoji_search{
+        width: 100%;
+        @include border-radius(4rem);
+        @include display-flex(row, nowrap, center, center, 0.5rem);
+        @include padding(1rem, 1rem, 1rem, 1rem);
+        background: $dark-mode-color-bg;
+
+        &>div{
+            width: 100%;
+            @include display-flex(row, nowrap, center, center, 1rem);
+
+            span{
+                color: $dark-mode-color-text;
+                font-size: 1.8rem;
+            }
+
+            input{
+                width: 100%;
+                background: transparent;
+                border: none;
+                @include padding(0.5rem, 1rem, 0.5rem, 1rem);
+                color: $dark-mode-color-text;
+                font-family: $font-primary;
+
+                &:focus{
+                    border-bottom-color: $primary-color;
+                }
+            }
+        }
+    }
+
+    .container-alter-field_box_emoji_box{
+        width: 100%;
+        height: 20rem;
+        overflow: auto;
+        @include display-flex(column, nowrap, flex-start, center, 1.5rem);
+        @include padding(1rem, 1rem, 1rem, 1rem);
+
+        // Scroll Bar
+        scrollbar-width: thin;
+        scrollbar-color: $dark-mode-color-divider $dark-mode-color-surface;
+
+        /* Chrome / Edge / Safari */
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $dark-mode-color-surface;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $dark-mode-color-divider;
+            @include border-radius(0.8rem);
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: lighten($dark-mode-color-divider, 10%);
+        }
+
+        .container-alter-field_box_emoji_box_emojis{
+            @include display-flex(row, wrap, flex-start, center, 0.5rem);
+
+            button{
+                border: none;
+                background: transparent;
+                font-size: 2rem;
+                cursor: pointer;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
+
+                &:hover{
+                    @include transform-scale(1.2);
+                }
+            }
+        }
+
+        .container-alter-field_box_emoji_box_child{
+            &:not(:first-child){
+                @include padding(1rem, 0rem, 0rem, 0rem);
+            }
+            @include display-flex(column, nowrap, center, flex-start, 1rem);
+            width: 100%;
+        }
+    }
+}
+
+.container-alter-field_box_emoji--view{
+    display: flex;
+}

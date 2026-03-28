@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service.service';
 import { RegisterRequest, RegisterResponse } from '../interfaces';
 import { passwordsMatchValidator } from '../validators';
-import { tap } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,10 @@ import { tap } from 'rxjs/operators';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+      private readonly authService: AuthService,
+      private readonly router: Router,
+    ) {}
 
   form = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -37,23 +40,19 @@ export class RegisterComponent {
         password2: this.form.value.password2!,
         roles: ['USER']
       };
+
+      this.formLoader = true;
       this.authService.register(registerRequest)
       .pipe(
-        tap(value => { 
-          this.formLoader = true;
+        finalize(() => { 
+          this.formLoader = false;
         })
       )
       .subscribe({
         next: (response: RegisterResponse) => {
-          console.log('Register response:', response);
+          this.router.navigate(['/auth/login']);
         },
-        error: (error) => {
-          console.error('Register error:', error);
-          this.formLoader = false;
-        },
-        complete: () => { 
-          this.formLoader = false; 
-        }
+        error: (error) => {}
       });
     }
   }

@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service.service';
 import { LoginRequest, LoginResponse } from '../interfaces';
-import { tap } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -33,10 +33,12 @@ export class LoginComponent {
         password: this.form.value.password!,
         rememberPassword: false
       };
+
+      this.formLoader = true;
       this.authService.login(loginRequest)
       .pipe(
-          tap(value => { 
-            this.formLoader = true;
+          finalize(() => { 
+            this.formLoader = false;
           })
         )
       .subscribe({
@@ -44,11 +46,7 @@ export class LoginComponent {
           this.router.navigate(['/']);
         },
         error: (error) => {
-          this.formLoader = false;
           console.error('Login error:', error);
-        },
-        complete: () => { 
-          this.formLoader = false;
         }
       });
     }

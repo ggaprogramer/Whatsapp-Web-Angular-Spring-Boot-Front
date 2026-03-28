@@ -1,0 +1,207 @@
+@import 'utils', 'variables';
+
+:host{
+    width: 100%;
+}
+
+.loader {
+    @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
+}
+
+.errors{
+    color: red;
+    font-size: 1.2rem;
+}
+
+.container-alter-profile-info {
+    border: 1px solid red;
+    border-right: $dark-mode-input-border 0.15rem solid;
+    min-height: 100vh;
+    width: 100%;
+    @include display-flex(column, nowrap, start, start, 2rem);
+    @include padding(1rem, 1rem, 1rem, 1rem);
+    background: $dark-mode-color-bg;
+
+    .container-alter-profile-info_header{
+        border: 1px solid red;
+        width: 100%;
+        @include display-flex(row, nowrap, start, center, 0rem);
+
+        h1{
+            color: $dark-mode-color-text;
+        } 
+    }
+
+    .container-alter-profile-info_photo{
+        width: 100%;
+        @include display-flex(row, nowrap, center, center, 0rem);
+
+        .container-alter-profile-info_photo_box{
+            @include border-radius(50%);
+            position: relative;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
+            cursor: pointer;
+            z-index: 100;
+
+            img{
+                width: 15rem;
+                height: 15rem;
+                @include border-radius(50%);
+            }
+
+            &>button{
+                @include border-radius(50%);
+                width: 15rem;
+                height: 15rem;
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                cursor: pointer;
+                font-family: $font-primary;
+                position: absolute;
+                top: 0rem;
+                background: transparent;
+                border: none;
+                background: $dark-mode-color-bg-opacity-5;
+                color: $dark-mode-button-default-text;
+                @include display-flex(column, nowrap, center, center, 1rem);
+                display: none;
+            }
+
+            &:hover>button {
+                display: flex;
+            }
+
+            div{
+                position: absolute;
+                top: 70%;
+                right: 0;
+                width: 25rem;
+                font-size: 1.5rem;
+                background: $dark-mode-color-surface;
+                border: $dark-mode-input-border 0.15rem solid;
+                @include display-flex(column, nowrap, center, start, 0rem);
+                @include border-radius(2rem);
+                @include padding(1rem, 1rem, 1rem, 1rem);
+                transform: scale(0);
+                @include transition(transform, 0.5s, ease-in-out, 0s, normal);
+
+                &.container-alter-profile-info-photo--view{
+                    transform: scale(1);
+                }
+
+                &>span{
+                    @include margin(1rem, 0rem, 1rem, 0rem);
+                    width: 100%;
+                    height: 0.2rem;
+                    background: $dark-mode-color-divider;
+                }
+
+                button{
+                    @include border-radius(0rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    @include display-flex(row, nowrap, start, center, 2rem);
+                    z-index: 1000;
+                    background: transparent;
+                    color: $dark-mode-button-default-text;
+                    border: none;
+                    @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                    cursor: pointer;
+                    font-family: $font-primary;
+
+                    input{
+                        display: none;
+                    }
+
+                    &:disabled{
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+
+                    &:not(:disabled):hover{
+                        color: $dark-mode-button-selected-text;
+                        @include transform-scale(1.05);
+                    }
+
+                    &:first-child{
+                        border-top-left-radius: 2rem;
+                    }
+
+                    &:last-child{
+                        border-bottom-left-radius: 2rem;
+                    }
+                }
+            }
+        }
+        
+    }
+
+    .container-alter-profile-info_field{
+        width: 100%;
+        @include display-flex(column, nowrap, center, flex-start, 1rem);
+
+        p{
+            color: $dark-mode-color-text;
+            font-size: 1.5rem;
+        }
+
+        .container-alter-field_box{
+            width: 100%;
+            @include display-flex(row, nowrap, center, center, 2rem);
+            position: relative;
+
+            &.container-alter-field_box--edit{
+                border-bottom: 0.2rem solid $primary-color;
+            }
+
+            .container-alter-profile-info_field_buttons{
+                @include display-flex(row, nowrap, center, center, 1rem);
+            }
+
+            .container-alter-profile-info_field_input{
+                width: 100%;
+                background: transparent;
+                border: none;
+                @include padding(1rem, 1rem, 1rem, 1rem);
+                color: $dark-mode-color-text;
+                font-family: $font-primary;
+            }
+
+            .container-alter-profile-info_field_buttons{
+                button{
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    span{
+                        color: $dark-mode-color-text;
+                        font-size: 2rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .container-alter-profile-info_button{
+        background: $terciary-color;
+        color: $white-color-one;
+        font-family: $font-primary;
+        font-weight: bold;
+        width: 30rem;
+        @include padding(1rem, 1rem, 1rem, 1rem);
+        @include border($terciary-color, 0.2rem, solid, 1rem);
+        cursor: pointer;
+        @include transition(all, 0.3s, ease-in-out, 0s, normal);
+        z-index: 10;
+
+        &:hover{
+            @include transform-scale(1.05);
+        }
+
+        &:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 500px){
+            width: 100%;
+        }
+    }
+}

@@ -19,7 +19,7 @@ export class AuthService {
 		return this.http
       .post<LoginResponse>(this.configService.getApiUrl('/auth/login'), loginRequest, { withCredentials: true })
       .pipe(
-				catchError(this.handleError)
+				catchError(this.configService.handleErrorHttp)
       );
   }
 
@@ -27,7 +27,7 @@ export class AuthService {
 		return this.http
       .post<RegisterResponse>(this.configService.getApiUrl('/auth/register'), registerRequest, { withCredentials: true })
       .pipe(
-				catchError(this.handleError)
+				catchError(this.configService.handleErrorHttp)
       );
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
 		return this.http
       .post(this.configService.getApiUrl('/auth/is-authenticated'), {}, { withCredentials: true })
       .pipe(
-				catchError(this.handleError)
+				catchError(this.configService.handleErrorHttp)
       );
   }
 
@@ -43,21 +43,8 @@ export class AuthService {
 		return this.http
       .post(this.configService.getApiUrl('/auth/logout'), {}, { withCredentials: true })
       .pipe(
-				catchError(this.handleError)
+				catchError(this.configService.handleErrorHttp)
       );
   }
 
-	private handleError(error: HttpErrorResponse) {
-		console.error('Erro HTTP:', error);
-
-		let message = 'Erro inesperado';
-
-		if (error.error instanceof ErrorEvent) {
-      message = error.error.message;
-    } else {
-      message = `Erro ${error.status}:${error.message}`;
-    }
-
-		return throwError(() => new Error(message));
-  }
 }

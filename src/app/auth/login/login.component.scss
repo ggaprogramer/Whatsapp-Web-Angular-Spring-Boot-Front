@@ -32,7 +32,7 @@
             width: 100%;
             @include padding(1rem, 1rem, 1rem, 1rem);
             @include border($black-color-one, 0.15rem, solid, 1rem);
-            transition: .3s;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
             &:focus{
                 @include transform-scale(1.01);
@@ -55,7 +55,7 @@
             @include padding(1rem, 1rem, 1rem, 1rem);
             @include border($terciary-color, 0.2rem, solid, 1rem);
             cursor: pointer;
-            transition: 0.3s;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
 
             &:hover{
                 @include transform-scale(1.05);
@@ -79,7 +79,7 @@
 
         &>a{
             cursor: pointer;
-            transition: 0.3s;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
             color: $black-color-one;
 
             &:hover{

@@ -64,3 +64,11 @@
   border-radius: $radius;
 }
 
+@mixin transition($property: all, $duration: 0.5s, $timing-function: ease-in-out, $delay: 0s, $behavior: normal){
+  transition-property: $property;
+  transition-duration: $duration;
+  transition-timing-function: $timing-function;
+  transition-delay: $delay;
+  transition-behavior: $behavior;
+}
+

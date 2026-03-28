@@ -1,0 +1,481 @@
+@import 'utils', 'variables';
+
+:host{
+    width: 100%;
+    @include display-flex(row, nowrap, left, start, 0rem);
+}
+
+button{
+    @include padding(1rem, 1rem, 1rem, 1rem);
+    @include border-radius(50%);
+
+    border: none;
+    cursor: pointer;
+    @include transition(all, 0.3s, ease-in-out, 0s, normal);
+
+    img{
+        width: 3rem;
+    }
+
+    background: $dark-mode-color-surface;
+    color: $dark-mode-button-default-text;
+    font-family: $font-primary;
+
+    &:hover{
+        color: $dark-mode-button-selected-text;
+        @include transform-scale(1.05);
+    }
+}
+
+.loader {
+    @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
+}
+
+.container-conversations{
+    border-right: $dark-mode-input-border 0.15rem solid;
+    min-height: 100vh;
+    width: 65rem;
+    @include display-flex(column, nowrap, start, center, 2rem);
+    @include padding(1rem, 1rem, 1rem, 1rem);
+    background: $dark-mode-color-bg;
+
+    h1{
+        color: $dark-mode-color-text;
+    }
+
+    .container-conversations_header{
+        width: 100%;
+        @include display-flex(row, nowrap, space-between, center, 0rem);
+
+        .container-conversations_header_buttons{
+            @include display-flex(row, nowrap, center, center, 1rem);
+
+            .container-conversations_header_buttons_options{
+                position: relative;
+                z-index: 1000;
+                
+                div{
+                    position: absolute;
+                    top: 120%;
+                    right: 0;
+                    width: 25rem;
+                    font-size: 1.5rem;
+                    background: $dark-mode-color-surface;
+                    border: $dark-mode-input-border 0.15rem solid;
+                    @include display-flex(column, nowrap, center, start, 0rem);
+                    @include border-radius(2rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
+
+                    &.container-conversations_header_buttons_options--view{
+                        transform: scale(1);
+                    }
+
+                    &>span{
+                        @include margin(1rem, 0rem, 1rem, 0rem);
+                        width: 100%;
+                        height: 0.2rem;
+                        background: $dark-mode-color-divider;
+                    }
+
+                    button{
+                        @include border-radius(0rem);
+                        @include display-flex(row, nowrap, start, center, 2rem);
+                        z-index: 1000;
+
+                        &:hover{
+                            @include transform-scale(1);
+                        }
+
+                        &:first-child{
+                            border-top-left-radius: 2rem;
+                        }
+
+                        &:last-child{
+                            border-bottom-left-radius: 2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .container-conversations_search{
+        width: 100%;
+
+        .container-conversations_search_input{
+            position: relative;
+            span{
+                position: absolute;
+                color: $dark-mode-input-placeholder-color;
+                left: 1rem;
+                top: 0.9rem;
+            }
+
+            input{
+                width: 100%;
+                background: $dark-mode-input-bg;
+                color: $dark-mode-input-text;
+                @include border($dark-mode-input-border, 0.2rem, solid, 2rem);
+                @include padding(1rem, 2rem, 1rem, 4rem);
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                font-family: $font-primary;
+                caret-color: $primary-color;
+
+                &:focus{
+                    border-color: $primary-color;
+                }
+
+                &::placeholder {
+                    color: $dark-mode-input-placeholder-color;
+                }
+            }
+        }
+    }
+
+    .container-conversations_filter{
+        width: 100%;
+        @include display-flex(row, nowrap, left, center, 0.5rem);
+
+        button{
+            @include border(none, 0.2rem, solid, 2rem);
+            font-weight: bold;
+
+            &.container-conversations_filter_button--active{
+                background: $tertiary-hover;
+                border-color: $input-border-focus;
+                color: $secoundary-color;
+            }
+        }
+    }
+
+    .container-conversations_conversations{
+        width: 100%;
+        @include display-flex(column, nowrap, flex-start, center, 1rem);
+        @include padding(1rem, 1rem, 1rem, 1rem);
+        height: 70vh;
+        overflow: auto;
+
+        .container-conversations_conversations_conversation{
+            h5, p{
+                color: $dark-mode-color-text;
+            }
+            @include border-radius(2rem);
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
+
+            h5{
+                font-size: 1.5rem;
+            }
+
+            p{
+                font-size: 1.2rem;
+            }
+
+            img{
+                width: 5rem;
+            }
+
+            @include display-flex(row, nowrap, left, center, 1rem);
+
+            &>div{
+                @include display-flex(column, nowrap, left, center, 1rem);
+
+                .container-conversations_conversations_conversation_header{
+                    width: 100%;
+                    @include display-flex(row, nowrap, space-between, center, 0.5rem);
+                }
+
+                .container-conversations_conversations_conversation_footer{
+                    width: 100%;
+                    @include display-flex(row, nowrap, end, center, 0.5rem);
+
+                    p{
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        width: 100%;
+                    }
+
+                    .container-conversations_conversations_conversation_number_messages{
+                        background: $primary-color;
+                        font-weight: bold;
+                        color: $black-color-one;
+                        width: 1rem;
+                        height: 1rem;
+                        @include display-flex(row, nowrap, center, center, 0rem);
+                        @include border-radius(50%);
+                        @include padding(1rem, 1rem, 1rem, 1rem);
+                    }
+                }
+            }
+
+            &:hover{
+                background: $dark-mode-button-selected-bg;
+                cursor: pointer;
+            }
+        }
+
+        // Scroll Bar
+        scrollbar-width: thin;
+        scrollbar-color: $dark-mode-color-divider $dark-mode-color-surface;
+
+        /* Chrome / Edge / Safari */
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $dark-mode-color-surface;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $dark-mode-color-divider;
+            @include border-radius(0.8rem);
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: lighten($dark-mode-color-divider, 10%);
+        }
+
+    }
+}
+
+.container-conversation{
+    min-height: 100vh;
+    width: 100%;
+    @include display-flex(column, nowrap, start, center, 0rem);
+    background: $dark-mode-color-bg;
+
+    .container-conversation_header{
+        width: 100%;
+        @include padding(1rem, 1rem, 1rem, 1rem);
+        @include display-flex(row, nowrap, space-between, center, 2rem);
+        border-bottom: $dark-mode-input-border 0.15rem solid;
+
+        .container-conversation_header_info{
+            @include display-flex(row, nowrap, center, center, 2rem);
+
+            img{
+                width: 5em;
+            }
+
+            h2{
+                font-size: 2rem;
+                color: $dark-mode-color-text;
+            }
+        }
+
+        .container-conversation_header_actions{
+            @include display-flex(row, nowrap, center, center, 2rem);
+
+            .container-conversation_header_actions_options{
+                position: relative;
+                z-index: 1000;
+                
+                div{
+                    position: absolute;
+                    top: 120%;
+                    right: 0;
+                    width: 25rem;
+                    font-size: 1.5rem;
+                    background: $dark-mode-color-surface;
+                    border: $dark-mode-input-border 0.15rem solid;
+                    @include display-flex(column, nowrap, center, start, 0rem);
+                    @include border-radius(2rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
+
+                    &.container-conversation_header_actions_options--view{
+                        transform: scale(1);
+                    }
+
+                    &>span{
+                        @include margin(1rem, 0rem, 1rem, 0rem);
+                        width: 100%;
+                        height: 0.2rem;
+                        background: $dark-mode-color-divider;
+                    }
+
+                    button{
+                        @include border-radius(0rem);
+                        @include display-flex(row, nowrap, start, center, 2rem);
+                        z-index: 1000;
+
+                        &:hover{
+                            @include transform-scale(1);
+                        }
+
+                        &:first-child{
+                            border-top-left-radius: 2rem;
+                        }
+
+                        &:last-child{
+                            border-bottom-left-radius: 2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .container-conversation_messages{
+        width: 100%;
+        @include padding(2rem, 1rem, 1rem, 1rem);
+        @include display-flex(column, nowrap, space-between, center, 0rem);
+
+        .container-conversation_messages_box{
+            width: 100%;
+            height: 71vh;
+            @include display-flex(column, nowrap, start, center, 2rem);
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            overflow: auto;
+
+            .container-conversation_messages_message{
+                color: $dark-mode-input-text;
+                width: 100%;
+                @include display-flex(row, nowrap, start, center, 2rem);
+
+                &>div{
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    @include border-radius(2rem);
+                    @include display-flex(row, nowrap, start, center, 2rem);
+                    max-width: 80%;
+
+                    .container-conversation_messages_message_text{
+                        font-size: 1.6rem;
+                    }
+
+                    .container-conversation_messages_message_info{
+                        @include display-flex(row, nowrap, end, center, 0.5rem);
+                        align-self: end;
+
+                        .container-conversation_messages_message_hour,
+                        .container-conversation_messages_message_check{
+                            color: $dark-mode-input-text;
+                            align-self: end;
+                            font-size: 1rem;
+                        }
+
+                        .container-conversation_messages_message_check{
+                            font-size: 1.2rem;
+                        }
+
+                    }
+                    
+                }
+            }
+
+            .container-conversation_messages_message--me{
+                justify-content: end;
+                &>div{
+                    background: $terciary-color;
+                }
+            }
+
+            .container-conversation_messages_message--he{
+                &>div{
+                    background: $dark-mode-color-surface;
+                }
+            }
+
+            // Scroll Bar
+            scrollbar-width: thin;
+            scrollbar-color: $dark-mode-color-divider $dark-mode-color-surface;
+
+            /* Chrome / Edge / Safari */
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: $dark-mode-color-surface;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $dark-mode-color-divider;
+                @include border-radius(0.8rem);
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: lighten($dark-mode-color-divider, 10%);
+            }
+        }
+
+        .container-conversation_messages_actions{
+            width: 100%;
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            @include margin(2rem, 0rem, 0rem, 0rem);
+            @include border-radius(2rem);
+            @include display-flex(row, nowrap, start, center, 2rem);
+            background: $dark-mode-color-surface;
+
+            .container-conversation_messages_actions_add{
+                position: relative;
+                z-index: 1000;
+                
+                div{
+                    position: absolute;
+                    bottom: 120%;
+                    right: 0;
+                    width: 25rem;
+                    font-size: 1.5rem;
+                    background: $dark-mode-color-surface;
+                    border: $dark-mode-input-border 0.15rem solid;
+                    @include display-flex(column, nowrap, center, start, 0rem);
+                    @include border-radius(2rem);
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    transform: scale(0);
+                    @include transition(transform, 0.5s, ease-in-out, 0s, normal);
+
+                    &.container-conversation_messages_actions_add--view{
+                        transform: scale(1);
+                    }
+
+                    &>span{
+                        @include margin(1rem, 0rem, 1rem, 0rem);
+                        width: 100%;
+                        height: 0.2rem;
+                        background: $dark-mode-color-divider;
+                    }
+
+                    button{
+                        @include border-radius(0rem);
+                        @include display-flex(row, nowrap, start, center, 2rem);
+                        z-index: 1000;
+
+                        &:hover{
+                            @include transform-scale(1);
+                        }
+
+                        &:first-child{
+                            border-top-left-radius: 2rem;
+                        }
+
+                        &:last-child{
+                            border-bottom-left-radius: 2rem;
+                        }
+                    }
+                }
+            }
+
+            &>div{
+                @include display-flex(row, nowrap, start, center, 0rem);
+            }
+
+            input{
+                width: 100%;
+                background: transparent;
+                color: $dark-mode-input-text;
+                @include padding(1rem, 1rem, 1rem, 1rem);
+                @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                font-family: $font-primary;
+                caret-color: $primary-color;
+                border: none;
+            }
+        }
+    }
+}
