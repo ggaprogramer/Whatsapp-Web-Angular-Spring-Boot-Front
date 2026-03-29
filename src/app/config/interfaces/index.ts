@@ -14,3 +14,13 @@ export interface StatusResponse {
     message: string;
     type: string;
 }
+
+export type TypeMessage = 'SUCCESS' | 'ERROR' | 'INFO' | 'WARNING';
+
+export interface StatusMessage {
+    message: string, 
+    status: TypeMessage,
+    disabled: boolean,
+    duration: number,
+}
+

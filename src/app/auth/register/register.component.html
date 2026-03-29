@@ -18,9 +18,15 @@
                 <label for="username">
                     Usuário:
                 </label>
-                <input type="text" id="username" formControlName="username">
+                <input type="text" id="username" formControlName="username" [minlength]="6">
                 <span class="errors" *ngIf="form.get('username')?.errors?.['required'] && form.touched">
                     O usuário é obrigatório
+                </span>
+                <span class="errors" *ngIf="form.get('username')?.errors?.['minlength'] && form.touched">
+                    Esse campo só pode ter até no mínimo 6 caracteres
+                </span>
+                <span class="errors" *ngIf="form.get('username')?.errors?.['usernameExists'] && form.touched">
+                    {{form.get('username')?.errors?.['usernameExists']}}
                 </span>
             </div>
         </div>
@@ -34,6 +40,9 @@
         </span>
         <span class="errors" *ngIf="form.get('email')?.errors?.['email'] && form.touched">
             O e-mail precisa ser válido.
+        </span>
+        <span class="errors" *ngIf="form.get('email')?.errors?.['emailNoExists'] && form.touched">
+            {{form.get('email')?.errors?.['emailNoExists']}}
         </span>
 
         <div class="register-box__inputs">
@@ -66,6 +75,13 @@
             <button *ngIf="!formLoader" [disabled]="form.invalid" class="register-box__button-create">Criar</button>
             <span class="loader" *ngIf="formLoader"></span>
         </div>
+
+        <span class="errors" *ngIf="form.errors?.['system'] && form.invalid">
+            {{form.errors?.['system']}}
+        </span>
+        <span class="errors" *ngIf="form.errors?.['roles'] && form.invalid">
+            Ocorreu algum erro na criação da conta. Por favor, fale com o suporte.
+        </span>
         <span class="errors" *ngIf="form.invalid && form.touched">
             Por favor, corrija os erros acima.
         </span>

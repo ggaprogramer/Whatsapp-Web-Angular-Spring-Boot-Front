@@ -152,10 +152,6 @@
                 border-bottom: 0.2rem solid $primary-color;
             }
 
-            .container-alter-profile-info_field_buttons{
-                @include display-flex(row, nowrap, center, center, 1rem);
-            }
-
             .container-alter-profile-info_field_input{
                 width: 100%;
                 background: transparent;
@@ -166,6 +162,8 @@
             }
 
             .container-alter-profile-info_field_buttons{
+                @include display-flex(row, nowrap, center, center, 1rem);
+
                 button{
                     border: none;
                     background: transparent;
@@ -173,6 +171,11 @@
                     span{
                         color: $dark-mode-color-text;
                         font-size: 2rem;
+                    }
+
+                    &:disabled{
+                        opacity: 0.5;
+                        cursor: not-allowed;
                     }
                 }
             }

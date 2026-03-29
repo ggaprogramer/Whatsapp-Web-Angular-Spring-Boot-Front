@@ -18,17 +18,11 @@ export class AuthService {
 	login(loginRequest: LoginRequest): Observable<LoginResponse> {
 		return this.http
       .post<LoginResponse>(this.configService.getApiUrl('/auth/login'), loginRequest, { withCredentials: true })
-      .pipe(
-				catchError(this.configService.handleErrorHttp)
-      );
   }
 
   register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
 		return this.http
       .post<RegisterResponse>(this.configService.getApiUrl('/auth/register'), registerRequest, { withCredentials: true })
-      .pipe(
-				catchError(this.configService.handleErrorHttp)
-      );
   }
 
   isAuthenticated() {

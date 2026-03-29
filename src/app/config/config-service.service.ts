@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
+import { TypeMessage, StatusMessage } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,29 @@ export class ConfigService {
       }
   
       return throwError(() => new Error(message));
-    }
+  }
+
+  // System Message
+  selectedMessage$ = this.makeMessage();
+
+  private makeMessage(): Subject<StatusMessage>{
+    return new Subject<StatusMessage>();
+  }
+
+  getMessage() {
+    return this.selectedMessage$.asObservable();
+  }
+
+  sendMessage(status: StatusMessage) {
+    this.selectedMessage$.next(status);
+
+    let intervalOut = setTimeout(() => {
+      this.selectedMessage$.next({...status, disabled: true});
+      clearTimeout(intervalOut);
+    }, status.duration);
+  }
+
+  completeMessage(){
+    this.selectedMessage$.complete();
+  }
 }

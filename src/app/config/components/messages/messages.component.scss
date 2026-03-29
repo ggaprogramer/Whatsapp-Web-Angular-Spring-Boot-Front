@@ -1,0 +1,35 @@
+@import 'utils', 'variables';
+
+.container-box-messages {
+    @include display-flex(row, nowrap, start, center, 2rem);
+    @include padding(2rem, 2rem, 2rem, 2rem);
+    @include border-radius(2rem);
+    max-width: 40rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+
+    &--success {
+        background: $color-background-success;
+        color:      $color-text-success;
+        border:     1px solid $color-border-success;
+    }
+
+    &--error {
+        background: $color-background-danger;
+        color:      $color-text-danger;
+        border:     1px solid $color-border-danger;
+    }
+
+    &--info {
+        background: $color-background-info;
+        color:      $color-text-info;
+        border:     1px solid $color-border-info;
+    }
+
+    &--warning {
+        background: $color-background-warning;
+        color:      $color-text-warning;
+        border:     1px solid $color-border-warning;
+    }
+}

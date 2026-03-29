@@ -14,6 +14,9 @@
         <span class="errors" *ngIf="form.get('email')?.errors?.['email'] && form.touched">
             O e-mail precisa ser válido.
         </span>
+        <span class="errors" *ngIf="form.get('email')?.errors?.['emailNoExists'] && form.touched">
+            {{form.get('email')?.errors?.['emailNoExists']}}
+        </span>
 
         <label for="password">
             Senha:
@@ -25,10 +28,16 @@
         <span class="errors" *ngIf="form.get('password')?.errors?.['minlength'] && form.touched">
             A senha deve ter pelo menos 8 caracteres.
         </span>
+        <span class="errors" *ngIf="form.get('password')?.errors?.['passwordIncorrect'] && form.touched">
+            {{form.get('password')?.errors?.['passwordIncorrect']}}
+        </span>
 
         <button *ngIf="!formLoader" [disabled]="form.invalid" type="submit">Entrar</button>
         <span class="loader" *ngIf="formLoader"></span>
 
+        <span class="errors" *ngIf="form.errors?.['system'] && form.invalid">
+            {{form.errors?.['system']}}
+        </span>
         <span class="errors" *ngIf="form.invalid && form.touched">
             Por favor, corrija os erros acima.
         </span>
