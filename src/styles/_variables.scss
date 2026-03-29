@@ -21,6 +21,32 @@ $gray-950: #030712;
 
 
 // =======================
+// Colors Messages
+// =======================
+// ─── Success ──────────────────────────────────
+// ─── Success
+$color-background-success: #1b4614;
+$color-text-success: #7ab948;
+$color-border-success: #599130;
+
+// ─── Error / Danger
+$color-background-danger: #602a28;
+$color-text-danger: #ee8884;
+$color-border-danger: #cd5c58;
+
+// ─── Info
+$color-background-info: #253e5f;
+$color-text-info: #80aadd;
+$color-border-info: #4682d5;
+
+// ─── Warning
+$color-background-warning: #483a0f;
+$color-text-warning: #d1a041;
+$color-border-warning: #a87829;
+
+
+
+// =======================
 // Colors Themes
 // =======================
 $primary-color: #26d367;

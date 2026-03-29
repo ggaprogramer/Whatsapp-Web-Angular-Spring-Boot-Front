@@ -11,6 +11,7 @@ import { Emoji } from '../../../config/interfaces';
 import { of, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { EmojisComponent } from '../Emojis/emojis.component';
+import { ConfigService } from '../../../config/config-service.service';
 
 @Component({
   selector: 'app-alter-profile',
@@ -23,6 +24,7 @@ export class AlterProfileComponent implements OnInit {
     constructor(
       private readonly emojiService: EmojiService,
       private readonly profileService: ProfileService,
+      private readonly configService: ConfigService,
       private readonly router: Router,
     ) {}
 
@@ -35,6 +37,7 @@ export class AlterProfileComponent implements OnInit {
     form = new FormGroup({
       file: new FormControl<File | null>(null),
       name: new FormControl<string>('', [Validators.required, Validators.maxLength(255)]),
+      username: new FormControl<string>('', [Validators.required, Validators.minLength(6), Validators.maxLength(255)]),
       description: new FormControl<string>('', [Validators.required]),
       phone: new FormControl<string>('', [Validators.required, 
         Validators.pattern(/^\(\d{2}\)\s9\d{4}-\d{4}$/)]),
@@ -64,6 +67,8 @@ export class AlterProfileComponent implements OnInit {
           }
           this.form.patchValue({name: this.profileInfo.name});
           this.form.get('name')?.updateValueAndValidity();
+          this.form.patchValue({username: this.profileInfo.username});
+          this.form.get('username')?.updateValueAndValidity();
           this.form.patchValue({description: this.profileInfo.description});
           this.form.get('description')?.updateValueAndValidity();
           this.form.patchValue({phone: this.profileInfo.phone});
@@ -76,6 +81,7 @@ export class AlterProfileComponent implements OnInit {
       const values : Partial<{
           file: File | null;
           name: string | null;
+          username: string | null;
           description: string | null;
           phone: string | null;
       }> = this.form.value;
@@ -91,6 +97,7 @@ export class AlterProfileComponent implements OnInit {
         base64File: base64File,
         mimeType: mimeType,
         name: values.name ? values.name : '',
+        username: values.username ? values.username : '',
         description: values.description ? values.description : '',
         phone: values.phone ? values.phone : '',
       }
@@ -100,20 +107,38 @@ export class AlterProfileComponent implements OnInit {
       .pipe(
         finalize(() => {
           this.formLoader = false;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          let errors = this.form.errors;
-          console.log(error);
-          const responseBody = error.error;
-          this.form.setErrors({
-            ...errors,
-            system: responseBody.message
-          }); 
-          return of(responseBody);
         })
       )
       .subscribe({
-        next: (response) => {}
+        next: (response) => {
+          this.configService.sendMessage({
+            message: 'O perfil foi atualizado com sucesso.', 
+            status: 'SUCCESS',
+            disabled: false,
+            duration: 3000,
+          });
+        }, 
+        error: (error) => {
+          let errors = this.form.errors;
+          const responseBody = error.error;
+          if(responseBody.type == 'username'){
+            this.form.get('username')!.setErrors({
+              'username': responseBody.message
+            }); 
+          } else if(responseBody.type == 'system') {
+            this.form.setErrors({
+              ...errors,
+              system: responseBody.message
+            }); 
+          }
+
+          this.configService.sendMessage({
+            message: responseBody.message, 
+            status: 'ERROR',
+            disabled: false,
+            duration: 3000,
+          });
+        }
       });
     }
 
@@ -149,9 +174,15 @@ export class AlterProfileComponent implements OnInit {
       inputFile.click();
     }
 
+    viewInfo(){
+      const inputFile = this.inputFilePhotoProfile.nativeElement as HTMLInputElement;
+      console.log(inputFile.value);
+    }
+
     handleFilePhoto(e: Event){
       const el = e.target as HTMLInputElement;
       const files = el.files;
+      console.log(files);
       if(files && files.length > 0){
         // Essa URL:
         // existe apenas na memória do navegador
@@ -170,6 +201,9 @@ export class AlterProfileComponent implements OnInit {
     }
 
     removePhoto(){
+      const inputFile = this.inputFilePhotoProfile.nativeElement as HTMLInputElement;
+      inputFile.value = '';
+
       this.form.patchValue({
           file: null
       });
@@ -195,6 +229,13 @@ export class AlterProfileComponent implements OnInit {
     @ViewChild('variableAlterNameBox') variableAlterNameBox!: ElementRef<HTMLDivElement>;
     // Field Name - End
 
+    // Field Name - Start
+    @ViewChild('variableInputUserName') variableInputUserName!: ElementRef<HTMLInputElement>;
+    variableInputUserNameLength!: number;
+    variableOpenEditUserName: boolean = false;
+    @ViewChild('variableAlterUserNameBox') variableAlterUserNameBox!: ElementRef<HTMLDivElement>;
+    // Field Name - End
+
     // Field Description - Start
     @ViewChild('variableInputDescription') variableInputDescription!: ElementRef<HTMLInputElement>;
     variableInputDescriptionLength!: number;
@@ -213,11 +254,28 @@ export class AlterProfileComponent implements OnInit {
       this.openEditField(type);
     }
 
+    copyPhone() {
+      const phone = this.form.get('phone')!.value;
+      if(phone) {
+        navigator.clipboard.writeText(phone);
+        this.configService.sendMessage({
+          message: 'Número copiado', 
+          status: 'INFO',
+          disabled: false,
+          duration: 3000,
+        });
+      }
+    }
+
     alterFieldLength(type: string){
       if(type === 'name'){
         this.variableInputNameLength = 
         this.variableInputName.nativeElement.value.length ?
         this.variableInputName.nativeElement.value.length : 0;
+      } else if(type === 'username'){
+        this.variableInputUserNameLength = 
+        this.variableInputUserName.nativeElement.value.length ?
+        this.variableInputUserName.nativeElement.value.length : 0;
       } else if(type === 'description'){
         this.variableInputDescriptionLength = 
         this.variableInputDescription.nativeElement.value.length ?
@@ -234,6 +292,10 @@ export class AlterProfileComponent implements OnInit {
         this.variableOpenEditName = true;
         this.variableAlterNameBox.nativeElement.classList.add('container-alter-field_box--edit');
         this.variableInputName.nativeElement.focus();
+      } else if(type === 'username'){
+        this.variableOpenEditUserName = true;
+        this.variableAlterUserNameBox.nativeElement.classList.add('container-alter-field_box--edit');
+        this.variableInputUserName.nativeElement.focus();
       } else if(type === 'description'){
         this.variableOpenEditDescription = true;
         this.variableAlterDescriptionBox.nativeElement.classList.add('container-alter-field_box--edit');
@@ -252,6 +314,9 @@ export class AlterProfileComponent implements OnInit {
       if(type === 'name'){
         this.variableOpenEditName = false;
         this.variableAlterNameBox.nativeElement.classList.remove('container-alter-field_box--edit');
+      } else if(type === 'username'){
+        this.variableOpenEditUserName = false;
+        this.variableAlterUserNameBox.nativeElement.classList.remove('container-alter-field_box--edit');
       } else if(type === 'description'){
         this.variableOpenEditDescription = false;
         this.variableAlterDescriptionBox.nativeElement.classList.remove('container-alter-field_box--edit');

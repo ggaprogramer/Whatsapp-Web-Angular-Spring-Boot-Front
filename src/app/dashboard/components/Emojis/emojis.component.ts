@@ -21,6 +21,7 @@ export class EmojisComponent {
   @Input({ required: true }) formProfile!: FormGroup<{
       file: FormControl<File | null>;
       name: FormControl<string | null>;
+      username: FormControl<string | null>;
       description: FormControl<string | null>;
       phone: FormControl<string | null>;
   }>
@@ -72,9 +73,11 @@ export class EmojisComponent {
   insertEmojiField(emoji: string){
     if(this.type === 'name'){
       this.formProfile.patchValue({name: this.profileInfo.name += emoji});
+      this.formProfile.markAsDirty();
       this.formProfile.get('name')?.updateValueAndValidity();
     } else if(this.type === 'description'){
       this.formProfile.patchValue({description: this.profileInfo.description += emoji});
+      this.formProfile.markAsDirty();
       this.formProfile.get('description')?.updateValueAndValidity();
     }
   }

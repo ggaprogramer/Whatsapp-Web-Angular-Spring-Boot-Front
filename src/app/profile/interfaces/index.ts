@@ -2,6 +2,7 @@ export interface AlterInfoProfileRequest {
     base64File: string | null;
     mimeType: string | null;
     name: string;
+    username: string;
     description: string;
     phone: string;
 }

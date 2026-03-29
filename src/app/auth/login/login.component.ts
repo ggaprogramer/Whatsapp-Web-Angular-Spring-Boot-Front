@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service.service';
+import { ConfigService } from '../../config/config-service.service';
 import { LoginRequest, LoginResponse } from '../interfaces';
 import { tap, finalize } from 'rxjs/operators';
 
@@ -16,6 +17,7 @@ import { tap, finalize } from 'rxjs/operators';
 export class LoginComponent {
   constructor(
     private readonly authService: AuthService,
+    private readonly configService: ConfigService,
     private readonly router: Router
   ) {}
 
@@ -44,9 +46,33 @@ export class LoginComponent {
       .subscribe({
         next: (response: LoginResponse) => {
           this.router.navigate(['/']);
-        },
+        }, 
         error: (error) => {
-          console.error('Login error:', error);
+          let errors = this.form.errors;
+          const responseBody = error.error;
+          const errorType = responseBody.type;
+
+          if(errorType == 'email'){
+            this.form.get('email')!.setErrors({
+              'emailNoExists': responseBody.message
+            }); 
+          } else if(errorType == 'password'){
+            this.form.get('password')!.setErrors({
+              'passwordIncorrect': responseBody.message
+            }); 
+          } else if(errorType == 'system'){
+            this.form.setErrors({
+              ...errors,
+              'system': responseBody.message
+            }); 
+          }
+          
+          this.configService.sendMessage({
+            message: responseBody.message, 
+            status: 'ERROR',
+            disabled: false,
+            duration: 3000,
+          });
         }
       });
     }
