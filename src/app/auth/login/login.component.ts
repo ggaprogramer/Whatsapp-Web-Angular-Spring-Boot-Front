@@ -46,6 +46,12 @@ export class LoginComponent {
       .subscribe({
         next: (response: LoginResponse) => {
           this.router.navigate(['/']);
+          this.configService.sendMessage({
+            message: 'Sucesso ao fazer login.', 
+            status: 'SUCCESS',
+            disabled: false,
+            duration: 3000,
+          });
         }, 
         error: (error) => {
           let errors = this.form.errors;

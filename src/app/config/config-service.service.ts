@@ -34,7 +34,7 @@ export class ConfigService {
   }
 
   // System Message
-  selectedMessage$ = this.makeMessage();
+  private selectedMessage$ = this.makeMessage();
 
   private makeMessage(): Subject<StatusMessage>{
     return new Subject<StatusMessage>();

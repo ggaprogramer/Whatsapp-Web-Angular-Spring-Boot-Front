@@ -18,7 +18,6 @@ export const routesProtected: CanActivateFn = () => {
 export const routesFree: CanActivateFn = () => {
 	const authService = inject(AuthService);
     const router = inject(Router);
-    console.log(router.url)
 	return authService.isAuthenticated().pipe(
         // Se a resposta for bem-sucedida, o usuário está autenticado não pode acessar as rotas de login, registro, etc.
         map(() => router.createUrlTree(['/'])),
