@@ -52,6 +52,12 @@ export class RegisterComponent {
       )
       .subscribe({
         next: (response: RegisterResponse) => {
+          this.configService.sendMessage({
+            message: 'Sucesso ao registrar, faça login para continuar.', 
+            status: 'SUCCESS',
+            disabled: false,
+            duration: 3000,
+          });
           this.router.navigate(['/auth/login']);
         },
         error: (error) => {
