@@ -11,10 +11,11 @@ export interface FriendShipResponse {
 }
 
 export interface ProfileFormatted {
-    name: string,
-    username: string,
-    email: string,
-    description: string,
-    phone: string,
-    linkPhoto: string
+    name: string;
+    username: string;
+    email: string;
+    description: string;
+    phone: string;
+    linkPhoto: string;
+    situationFriendship: string;
 }

@@ -15,12 +15,20 @@ export class FriendShipService {
     ) {}
 
     sendRequestFriendShip(sendRequestFriendShip: FriendShipRequest): Observable<FriendShipResponse> {
-        return this.http
+      return this.http
       .post<FriendShipResponse>(this.configService.getApiUrl('/request/friendship'), sendRequestFriendShip, 
       { withCredentials: true })
-  }
+    }
 
-  getProfileListForFriendShip(): Observable<ProfileFormatted[]> {
+    cancelRequestFriendship(sendRequestFriendShip: FriendShipRequest): Observable<FriendShipResponse> {
+      return this.http
+      .delete<FriendShipResponse>(this.configService.getApiUrl('/request/friendship'), {
+        body: sendRequestFriendShip,
+        withCredentials: true
+      })
+    }
+
+    getProfileListForFriendShip(): Observable<ProfileFormatted[]> {
         return this.http
       .get<ProfileFormatted[]>(this.configService.getApiUrl('/request/friendship/profile-list'), 
       { withCredentials: true })

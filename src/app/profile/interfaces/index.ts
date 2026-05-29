@@ -14,6 +14,7 @@ export interface AlterInfoProfileResponse {
     name: string;
     username: string;
     email: string;
+    confirmedEmail: boolean;
     description: string;
     phone: string;
     linkPhoto: string;

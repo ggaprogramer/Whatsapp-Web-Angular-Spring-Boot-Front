@@ -217,37 +217,42 @@
                             @include transition(all, 0.3s, ease-in-out, 0s, normal);
                             z-index: 10;
 
-                            &:hover{
-                                @include transform-scale(1.05);
-                                background: $terciary-color;
-                                color: $dark-mode-color-text;
-                            }
-
                             &:disabled{
                                 opacity: 0.5;
                                 cursor: not-allowed;
                             }
                         }
 
-                        button:nth-of-type(1){
+                        .container-new-contacts-box-recommendations-contact-buttons-add{
                             background: transparent;
                             color: $primary-color;
                             @include padding(1rem, 2rem, 1rem, 2rem);
                             @include border($terciary-color, 0.15rem, solid, 1rem);
 
                             &:hover{
+                                @include transform-scale(1.05);
                                 background: $terciary-color;
                                 color: $dark-mode-color-text;
                             }
                         }
 
-                        button:nth-of-type(2){
-                            background: transparent;
-                            @include border($dark-mode-color-text-secondary, 0.15rem, solid, 1rem);
-                            color: $dark-mode-color-text-secondary;
+                        .container-new-contacts-box-recommendations-contact-buttons-pending{
+                            background: $color-background-warning;
+                            @include border($color-border-warning, 0.15rem, solid, 1rem);
+                            color: $color-text-warning;
 
                             &:hover{
-                                color: $dark-mode-color-text;
+                                cursor: auto;
+                            }
+                        }
+
+                        .container-new-contacts-box-recommendations-contact-buttons-remove{
+                            background: $color-background-danger;
+                            @include border($color-border-danger, 0.15rem, solid, 1rem);
+                            color: $color-text-danger;
+
+                            &:hover{
+                                @include transform-scale(1.05);
                             }
                         }
                     }

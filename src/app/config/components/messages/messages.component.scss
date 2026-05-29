@@ -6,6 +6,7 @@
     @include border-radius(2rem);
     max-width: 40rem;
     position: absolute;
+    z-index: 1000;
     top: 1rem;
     left: 1rem;
 

@@ -28,19 +28,21 @@
                     <option value="+55">+55</option>
                 </select>
                 <input type="text" class="container-new-contacts-box-search_input"
-                placeholder="(81) 99999-0000">
-                <input type="text" class="container-new-contacts-box-search_input" #searchInput
+                placeholder="(81) 99999-0000" #searchInputPhone>
+                <input type="text"
+                class="container-new-contacts-box-search_input" #searchInputText
                 placeholder="Digite o nome do contato">
-                <button type="button" class="container-new-contacts-box-search_button">Buscar</button>
+                <button type="button" (click)="searchProfiles()" 
+                class="container-new-contacts-box-search_button">Buscar</button>
             </div>
         </div>
         <div class="container-new-contacts-box-recommendations">
             <div class="container-new-contacts-box-recommendations-title">
-                <h3>Pessoas que você pode conhecer ({{profilesList.length}})</h3>
+                <h3>Pessoas que você pode conhecer ({{profilesListFilter.length}})</h3>
                 <p>Com base nos seus contatos em comum</p>
             </div>
             <div class="container-new-contacts-box-recommendations-contacts">
-                <div *ngFor="let profile of profilesList" class="container-new-contacts-box-recommendations-contact">
+                <div *ngFor="let profile of profilesListFilter" class="container-new-contacts-box-recommendations-contact">
                     <img *ngIf="!profile.linkPhoto" src="/user.png" alt="">
                     <img *ngIf="profile.linkPhoto" src="{{ profile.linkPhoto }}" alt="">
 
@@ -62,11 +64,21 @@
                         </div>
                     </div>
                     <div class="container-new-contacts-box-recommendations-contact-buttons">
-                        <button type="button">
+                        <button class="container-new-contacts-box-recommendations-contact-buttons-add"
+                        (click)="sendFriendshipRequest(profile.username)" 
+                        *ngIf="profile.situationFriendship !== 'PENDING'" type="button">
                             Enviar solicitação
                         </button>
-                        <button type="button">
+                        <button class="container-new-contacts-box-recommendations-contact-buttons-pending"
+                        *ngIf="profile.situationFriendship === 'PENDING'" 
+                        type="button">
                             Solicitação pendente
+                        </button>
+                        <button class="container-new-contacts-box-recommendations-contact-buttons-remove"
+                        *ngIf="profile.situationFriendship === 'PENDING'" 
+                        (click)="cancelRequestFriendship(profile.username)"
+                        type="button">
+                            Cancelar solicitação
                         </button>
                     </div>
                 </div>
