@@ -28,17 +28,11 @@ export class AuthService {
   isAuthenticated() {
 		return this.http
       .post(this.configService.getApiUrl('/auth/is-authenticated'), {}, { withCredentials: true })
-      .pipe(
-				catchError(this.configService.handleErrorHttp)
-      );
   }
 
   logout() {
 		return this.http
       .post(this.configService.getApiUrl('/auth/logout'), {}, { withCredentials: true })
-      .pipe(
-				catchError(this.configService.handleErrorHttp)
-      );
   }
 
 }

@@ -1,0 +1,278 @@
+@import 'utils', 'variables';
+
+:host{
+    width: 100%;
+}
+
+.loader {
+    @include loader(5rem, 0.5rem, $primary-color, $secoundary-color, 1s);
+}
+
+.errors{
+    color: red;
+    font-size: 1.2rem;
+}
+
+.container-my-contacts {
+    border-right: $dark-mode-input-border 0.15rem solid;
+    min-height: 100vh;
+    width: 100%;
+    @include display-flex(column, nowrap, start, start, 2rem);
+    background: $dark-mode-color-bg;
+
+    .container-my-contacts-header{
+        @include display-flex(row, nowrap, space-between, center, 2rem);
+        width: 100%;
+        background: $dark-mode-color-bg;
+        border-bottom: 0.1rem solid $dark-mode-color-divider;
+        @include padding(1rem, 1rem, 1rem, 1rem);
+
+        button{
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            @include border-radius(50%);
+
+            border: none;
+            cursor: pointer;
+            @include transition(all, 0.3s, ease-in-out, 0s, normal);
+
+            img{
+                width: 3rem;
+            }
+
+            background: $dark-mode-color-surface;
+            color: $dark-mode-button-default-text;
+            font-family: $font-primary;
+
+            &:hover{
+                color: $dark-mode-button-selected-text;
+                @include transform-scale(1.05);
+            }
+        }
+
+        .container-my-contacts-header-title{
+            @include display-flex(column, nowrap, start, start, 1rem);
+            width: 100%;
+
+            h2{
+                color: $dark-mode-color-text;
+            }
+
+            p{
+                color: $dark-mode-color-text-secondary;
+            }
+        }
+
+        .container-my-contacts-header-buttons{
+            @include display-flex(row, nowrap, center, center, 1rem);
+        }
+    }
+
+    .container-my-contacts-box{
+        width: 100%;
+        box-sizing: border-box;
+        @include padding(1rem, 1rem, 1rem, 1rem);
+        @include display-flex(column, nowrap, start, start, 2rem);
+
+        .container-my-contacts-box-search{
+            background: $dark-mode-color-surface;
+            width: 100%;
+            @include display-flex(column, nowrap, start, start, 1.5rem);
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            @include border-radius(1rem);
+
+            .container-my-contacts-box-search-title{
+               @include display-flex(column, nowrap, start, start, 1rem); 
+
+               h3{
+                color: $dark-mode-color-text;
+                }
+
+                p{
+                    color: $dark-mode-color-text-secondary;
+                }
+            }
+
+            .container-my-contacts-box-search-inputs{
+                width: 100%;
+                @include display-flex(row, nowrap, center, center, 2rem);
+
+                .container-my-contacts-box-search_input{
+                    @include border-radius(1rem);
+                    width: 100%;
+                    background: $dark-mode-color-bg;
+                    border: none;
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    color: $dark-mode-color-text;
+                    font-family: $font-primary;
+                }
+
+                .container-my-contacts-box-search_select{
+                    @include border-radius(1rem);
+                    width: 10rem;
+                    background: $dark-mode-color-bg;
+                    border: none;
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    color: $dark-mode-color-text;
+                    font-family: $font-primary;
+                }
+
+                .container-my-contacts-box-search_button{
+                    background: $terciary-color;
+                    color: $white-color-one;
+                    font-family: $font-primary;
+                    font-weight: bold;
+                    @include padding(1rem, 1rem, 1rem, 1rem);
+                    @include border($terciary-color, 0.2rem, solid, 1rem);
+                    cursor: pointer;
+                    @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                    z-index: 10;
+
+                    &:hover{
+                        @include transform-scale(1.05);
+                    }
+
+                    &:disabled{
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+
+        }
+
+        .container-my-contacts-box-recommendations{
+            background: $dark-mode-color-surface;
+            width: 100%;
+            height: 50vh;
+            overflow: auto;
+            @include display-flex(column, nowrap, start, start, 1.5rem);
+            @include padding(1rem, 1rem, 1rem, 1rem);
+            @include border-radius(1rem);
+
+            .container-my-contacts-box-recommendations-title{
+               @include display-flex(column, nowrap, start, start, 1rem); 
+
+               h3{
+                color: $dark-mode-color-text;
+                }
+
+                p{
+                    color: $dark-mode-color-text-secondary;
+                }
+            }
+
+            .container-my-contacts-box-recommendations-contacts{
+                width: 100%;
+                @include display-flex(column, nowrap, start, start, 2rem);
+
+                .container-my-contacts-box-recommendations-contact{
+                    @include display-flex(row, nowrap, start, center, 2rem);
+                    width: 100%;
+                    @include padding(0rem, 0rem, 1rem, 0rem);
+                    
+                    &:not(:last-child){
+                        border-bottom: 0.1rem solid $dark-mode-color-divider;
+                    }
+
+                    &>img{
+                        width: 10rem;
+                        height: 10rem;
+                    }
+
+                    .container-my-contacts-box-recommendations-contact-info{
+                        @include display-flex(column, nowrap, start, start, 1rem);
+                        width: 60rem;
+
+                        h4{
+                            color: $dark-mode-color-text;
+                        }
+
+                        p{
+                            color: $dark-mode-color-text-secondary;
+                        }
+
+                        .container-my-contacts-box-recommendations-contact-info-friends{
+                           @include display-flex(row, nowrap, start, start, 1.5rem);
+                           
+                           div{
+                                @include display-flex(row, nowrap, start, start, 0.5rem);
+
+                                img{
+                                    width: 2rem;
+                                    height: 2rem;
+                                }
+                           }
+                        }
+                    }
+
+                    .container-my-contacts-box-recommendations-contact-buttons{
+                        @include display-flex(row, nowrap, flex-end, center, 1rem);
+                        width: 100%;
+
+                        button{
+                            font-family: $font-primary;
+                            @include padding(1rem, 2rem, 1rem, 2rem);
+                            cursor: pointer;
+                            @include transition(all, 0.3s, ease-in-out, 0s, normal);
+                            z-index: 10;
+
+                            &:hover{
+                                @include transform-scale(1.05);
+                            }
+
+                            &:disabled{
+                                opacity: 0.5;
+                                cursor: not-allowed;
+                            }
+                        }
+
+                        button:nth-of-type(1){
+                            background: transparent;
+                            color: $primary-color;
+                            @include padding(1rem, 2rem, 1rem, 2rem);
+                            @include border($terciary-color, 0.15rem, solid, 1rem);
+
+                            &:hover{
+                                background: $terciary-color;
+                                color: $dark-mode-color-text;
+                            }
+                        }
+
+                        button:nth-of-type(2){
+                            background: transparent;
+                            @include border($color-border-danger, 0.15rem, solid, 1rem);
+                            color: $color-text-danger;
+                        }
+                    }
+                }
+
+            }
+
+            // Scroll Bar
+            scrollbar-width: thin;
+            scrollbar-color: $dark-mode-color-divider $dark-mode-color-surface;
+
+            /* Chrome / Edge / Safari */
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: $dark-mode-color-surface;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $dark-mode-color-divider;
+                @include border-radius(0.8rem);
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: lighten($dark-mode-color-divider, 10%);
+            }
+
+        }
+
+    }
+
+    
+}

@@ -1,7 +1,8 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { buttonsActionsAlterComponents } from '../../interfaces';
 
 @Component({
   selector: 'app-conversations',
@@ -11,6 +12,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './conversations.component.scss'
 })
 export class ConversationsComponent {
+
+    @Output() value = new EventEmitter<buttonsActionsAlterComponents>();
+
+    goToPageNewContacts() {
+      this.value.emit('NEW_CONTACTS');
+    }
 
     @ViewChild('variableContainerConversationsHeaderOptions') variableContainerConversationsHeaderOptions!: ElementRef<HTMLButtonElement>;
     @ViewChild('variableContainerConversationHeaderActionsOptions') variableContainerConversationHeaderActionsOptions!: ElementRef<HTMLButtonElement>;

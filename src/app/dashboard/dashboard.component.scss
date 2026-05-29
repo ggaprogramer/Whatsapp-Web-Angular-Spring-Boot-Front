@@ -12,6 +12,7 @@
     @include display-flex(row, nowrap, left, start, 0rem);
 
     button{
+        position: relative;
         @include padding(1rem, 1rem, 1rem, 1rem);
         @include border-radius(50%);
 
@@ -30,6 +31,18 @@
         &:hover{
             color: $dark-mode-button-selected-text;
             @include transform-scale(1.05);
+        }
+
+        &.button-notifications span:nth-child(2){
+            position: absolute;
+            text-align: center;
+            @include display-flex(row, nowrap, center, center, 0rem);
+            width: 2rem;
+            height: 2rem;
+            @include border-radius(50%);
+            background: $color-background-info;
+            top: 0rem;
+            left: 3rem;
         }
     }
 

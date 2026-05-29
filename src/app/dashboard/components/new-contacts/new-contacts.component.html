@@ -1,0 +1,77 @@
+<div class="container-new-contacts">
+    <div class="container-new-contacts-header">
+        <button type="button">
+            <span class="material-symbols-outlined">
+                person_add
+            </span>
+        </button>
+        <div class="container-new-contacts-header-title">
+            <h2>Encontrar contatos</h2>
+            <p>Adicione pessoas ao seu WhatsApp</p>
+        </div>
+        <div class="container-new-contacts-header-buttons">
+            <button (click)="focusSearch()" type="button">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+            </button>
+        </div>
+    </div>
+    <form class="container-new-contacts-box">
+        <div class="container-new-contacts-box-search">
+            <div class="container-new-contacts-box-search-title">
+                <h3>Buscar por nome ou número de telefone</h3>
+                <p>Digite o nome ou número com DDD para encontrar alguém no WhatsApp</p>
+            </div>
+            <div class="container-new-contacts-box-search-inputs">
+                <select name="" id="" class="container-new-contacts-box-search_select">
+                    <option value="+55">+55</option>
+                </select>
+                <input type="text" class="container-new-contacts-box-search_input"
+                placeholder="(81) 99999-0000">
+                <input type="text" class="container-new-contacts-box-search_input" #searchInput
+                placeholder="Digite o nome do contato">
+                <button type="button" class="container-new-contacts-box-search_button">Buscar</button>
+            </div>
+        </div>
+        <div class="container-new-contacts-box-recommendations">
+            <div class="container-new-contacts-box-recommendations-title">
+                <h3>Pessoas que você pode conhecer ({{profilesList.length}})</h3>
+                <p>Com base nos seus contatos em comum</p>
+            </div>
+            <div class="container-new-contacts-box-recommendations-contacts">
+                <div *ngFor="let profile of profilesList" class="container-new-contacts-box-recommendations-contact">
+                    <img *ngIf="!profile.linkPhoto" src="/user.png" alt="">
+                    <img *ngIf="profile.linkPhoto" src="{{ profile.linkPhoto }}" alt="">
+
+                    <div class="container-new-contacts-box-recommendations-contact-info">
+                        <h4>
+                            {{ profile.name }}
+                        </h4>
+                        <p>
+                            {{ profile.phone }}
+                        </p>
+                        <div class="container-new-contacts-box-recommendations-contact-info-friends">
+                            <div>
+                                <img src="/user.png" alt="">
+                                <img src="/user.png" alt="">
+                            </div>
+                            <p>
+                                2 contatos em comum — Ana, Rafael
+                            </p>
+                        </div>
+                    </div>
+                    <div class="container-new-contacts-box-recommendations-contact-buttons">
+                        <button type="button">
+                            Enviar solicitação
+                        </button>
+                        <button type="button">
+                            Solicitação pendente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
