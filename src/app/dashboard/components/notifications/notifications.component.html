@@ -1,0 +1,54 @@
+<div class="container-notifications">
+    <div class="container-notifications-header">
+        <button type="button">
+            <span class="material-symbols-outlined">
+                notifications
+            </span>
+        </button>
+        <div class="container-notifications-header-title">
+            <h2>Minhas Notificações</h2>
+            <p>Aqui você vai encontrar notificações sobre novas mensagens e atualizações</p>
+        </div>
+    </div>
+
+
+    <div class="container-notifications-body">
+        <div *ngFor="let profile of profilesList" class="container-notifications-item">
+            <div class="container-notifications-item-image">
+                <img src="/user.png" alt="">
+            </div>
+            <div class="container-notifications-item-content">
+                <p>
+                    <strong>{{ profile.name }}</strong>
+                    enviou uma solicitação de amizade
+                </p>
+                <p>
+                    <span class="material-symbols-outlined">
+                        schedule
+                    </span>
+                    agora mesmo
+                </p>
+                <div class="container-notifications-recommendations-contact-info-friends">
+                    <div>
+                        <img src="/user.png" alt="">
+                        <img src="/user.png" alt="">
+                    </div>
+                    <p>
+                        2 contatos em comum — Ana, Rafael
+                    </p>
+                </div>
+                <div class="container-notifications-item-buttons">
+                    <button (click)="acceptFriendShip(profile.username)" class="button-add" type="button">
+                        Aceitar
+                    </button>
+                    <button (click)="rejectFriendShip(profile.username)" class="button-remove" type="button">
+                        Recusar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    
+</div>
+
+

@@ -6,7 +6,7 @@
                     chat
                 </span>
             </button>
-            <button class="button-notifications">
+            <button (click)="viewComponentNotifications()" class="button-notifications">
                 <span class="material-symbols-outlined">
                     notifications
                 </span>
@@ -55,5 +55,7 @@
     <app-new-contacts *ngIf="viewComponentNow === 'NEW_CONTACTS'"></app-new-contacts>
 
     <app-my-contacts *ngIf="viewComponentNow === 'MY_CONTACTS'"></app-my-contacts>
+
+     <app-notifications *ngIf="viewComponentNow === 'NOTIFICATIONS'"></app-notifications>
 
 </div>

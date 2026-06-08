@@ -28,9 +28,27 @@ export class FriendShipService {
       })
     }
 
+    rejectedRequestFriendShip(sendRequestFriendShip: FriendShipRequest): Observable<FriendShipResponse> {
+      return this.http
+      .post<FriendShipResponse>(this.configService.getApiUrl('/request/friendship-rejected'), sendRequestFriendShip, 
+      { withCredentials: true })
+    }
+
+    approvedRequestFriendShip(sendRequestFriendShip: FriendShipRequest): Observable<FriendShipResponse> {
+      return this.http
+      .post<FriendShipResponse>(this.configService.getApiUrl('/request/friendship-approved'), sendRequestFriendShip, 
+      { withCredentials: true })
+    }
+
     getProfileListForFriendShip(): Observable<ProfileFormatted[]> {
         return this.http
       .get<ProfileFormatted[]>(this.configService.getApiUrl('/request/friendship/profile-list'), 
+      { withCredentials: true })
+    }
+
+    getProfileListForFriendShipFilterByStatus(status: string): Observable<ProfileFormatted[]> {
+        return this.http
+      .get<ProfileFormatted[]>(this.configService.getApiUrl(`/request/friendship/profile-list-filter/${status}`), 
       { withCredentials: true })
     }
 

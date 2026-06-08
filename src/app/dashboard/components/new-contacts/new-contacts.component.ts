@@ -60,7 +60,17 @@ export class NewContactsComponent {
             duration: 3000,
         });
         this.getProfileListForFriendShip();
+      },
+      error: (error) => {
+        console.log(error);
+        this.configService.sendMessage({
+            message: error.error.message, 
+            status: 'ERROR',
+            disabled: false,
+            duration: 3000,
+        });
       }
+
     });
   }
 

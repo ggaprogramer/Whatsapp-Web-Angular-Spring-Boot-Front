@@ -1,4 +1,4 @@
-export type buttonsActionsAlterComponents = 'CONVERSATIONS' | 'ALTER_PROFILE' | 'CONFIGURATION' | 'NEW_CONTACTS' | 'MY_CONTACTS';
+export type buttonsActionsAlterComponents = 'CONVERSATIONS' | 'ALTER_PROFILE' | 'CONFIGURATION' | 'NEW_CONTACTS' | 'MY_CONTACTS' | 'NOTIFICATIONS';
 
 export interface FriendShipRequest {
     username: string;

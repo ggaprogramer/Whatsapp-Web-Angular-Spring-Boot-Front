@@ -24,9 +24,6 @@
                 <p>Digite o nome ou número com DDD para encontrar alguém no WhatsApp</p>
             </div>
             <div class="container-new-contacts-box-search-inputs">
-                <select name="" id="" class="container-new-contacts-box-search_select">
-                    <option value="+55">+55</option>
-                </select>
                 <input type="text" class="container-new-contacts-box-search_input"
                 placeholder="(81) 99999-0000" #searchInputPhone>
                 <input type="text"
@@ -42,6 +39,7 @@
                 <p>Com base nos seus contatos em comum</p>
             </div>
             <div class="container-new-contacts-box-recommendations-contacts">
+                <span *ngIf="profilesListFilter.length == 0" class="loader"></span>
                 <div *ngFor="let profile of profilesListFilter" class="container-new-contacts-box-recommendations-contact">
                     <img *ngIf="!profile.linkPhoto" src="/user.png" alt="">
                     <img *ngIf="profile.linkPhoto" src="{{ profile.linkPhoto }}" alt="">

@@ -7,17 +7,19 @@ import { ConversationsComponent } from './components/Conversations/conversations
 import { AlterProfileComponent } from "./components/Alter-profile/alter-profile.component";
 import { NewContactsComponent } from './components/new-contacts/new-contacts.component';
 import { MyContactsComponent } from './components/my-contacts/my-contacts.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, CommonModule, ConversationsComponent, AlterProfileComponent, NewContactsComponent, MyContactsComponent],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, ConversationsComponent, 
+    AlterProfileComponent, NewContactsComponent, MyContactsComponent, NotificationsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
 
-  viewComponentNow: buttonsActionsAlterComponents = 'NEW_CONTACTS';
+  viewComponentNow: buttonsActionsAlterComponents = 'NOTIFICATIONS';
 
   viewComponentAlterProfile() {
     this.viewComponentNow = 'ALTER_PROFILE';
@@ -33,6 +35,10 @@ export class DashboardComponent {
 
   viewComponentMyContacts() {
     this.viewComponentNow = 'MY_CONTACTS';
+  }
+
+  viewComponentNotifications() {
+    this.viewComponentNow = 'NOTIFICATIONS';
   }
 
 }
